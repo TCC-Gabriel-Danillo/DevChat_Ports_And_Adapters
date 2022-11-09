@@ -4,15 +4,18 @@ const config = getDefaultConfig(__dirname)
 
 const domainPath = __dirname + '/../domain'
 const infraPath = __dirname + '/../infrastructure'
+const configPath = __dirname + '/../config'
 
 const extraNodeModules = {
   domain: path.resolve(domainPath), 
   infrastructure: path.resolve(infraPath), 
+  config: path.resolve(configPath), 
 }
 
 config.watchFolders = [
-    path.resolve(domainPath), 
-    path.resolve(infraPath),
+  extraNodeModules.domain, 
+  extraNodeModules.infrastructure,
+  extraNodeModules.config
 ]
 
 config.resolver.extraNodeModules = new Proxy(extraNodeModules, {

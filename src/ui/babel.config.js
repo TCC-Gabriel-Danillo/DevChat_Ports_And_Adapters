@@ -10,6 +10,7 @@ module.exports = function(api) {
             '@config': '../config',
             '@domain': '../domain',
             '@infrastructure': '../infrastructure',
+            '@ui': '../ui',
           },
         },
       ]

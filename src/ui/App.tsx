@@ -1,21 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import "@config/firabaseConfig"
+import "@ui/src/config/firabaseConfig"; 
+import { AuthContextProvider } from '@ui/src/context';
+import { AuthPage } from '@ui/src/pages';
+import { View } from 'react-native'
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthContextProvider>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <AuthPage />
+      </View>
+    </AuthContextProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

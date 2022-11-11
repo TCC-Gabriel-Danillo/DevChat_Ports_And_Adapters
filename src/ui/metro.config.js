@@ -4,13 +4,11 @@ const config = getDefaultConfig(__dirname)
 
 const domainPath = __dirname + '/../domain'
 const infraPath = __dirname + '/../infrastructure'
-const configPath = __dirname + '/../config'
 const uiPath = __dirname + '/../ui'
 
 const extraNodeModules = {
   domain: path.resolve(domainPath), 
   infrastructure: path.resolve(infraPath), 
-  config: path.resolve(configPath), 
   ui: path.resolve(uiPath), 
 }
 

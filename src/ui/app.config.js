@@ -35,6 +35,10 @@ export default {
     "extra": {
       "git_cliet_secret": process.env.GIT_CLIENT_SECRET, 
       "git_client_id": process.env.GIT_CLIENT_ID,
+      "git_authorization_endpoint": process.env.GIT_AUTHORIZATION_ENDPOINT,
+      "git_token_endpoint": process.env.GIT_TOKEN_ENDPOINT,
+      "git_revocation_endpoint": process.env.GIT_REVOCATION_ENDPOINT,
+      "git_client_id": process.env.GIT_CLIENT_ID,
       "firebase_api_key": process.env.FIREBASE_API_KEY,
       "firebase_auth_domain": process.env.FIREBASE_AUTH_DOMAIN,
       "firebase_project_id": process.env.FIREBASE_PROJECT_ID,

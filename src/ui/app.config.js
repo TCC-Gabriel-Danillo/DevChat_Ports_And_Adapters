@@ -3,7 +3,7 @@ import 'dotenv/config'
 export default {
   "expo": {
     "name": "Ui",
-    "scheme": "devchat.app",
+    "scheme": process.env.APP_SCHEME,
     "slug": "Ui",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -46,6 +46,7 @@ export default {
       "firebase_messaging_sender_id": process.env.FIREBASE_MESSAGING_SENDER_ID,
       "firebase_app_id": process.env.FIREBASE_APP_ID,
       "firebase_measurement_id": process.env.FIREBASE_MEASUREMENT_ID,
+      "app_scheme": process.env.APP_SCHEME
     }
   }
 }

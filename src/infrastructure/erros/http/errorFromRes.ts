@@ -1,10 +1,8 @@
-import {
-    BadRequestError,
-    NotFoundError,
-    ServerError,
-    UnauthenticatedError,
-    UnauthorizedError,
-  } from '.'
+import { BadRequestError } from './badRequestError'
+import { UnauthenticatedError } from './unauthenticatedError'
+import { UnauthorizedError } from './unauthorizedError'
+import { NotFoundError } from './notFoundError'
+import { ServerError } from './serverError'
   
   export const ErrorFromRes = (status?: number | string, message?: string) => {
     const statusErrors: Record<number, Error> = {

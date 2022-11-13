@@ -1,7 +1,17 @@
 export interface User {
-    name: string 
+    username: string 
     id: string
-    photoURL?: string
+    photoUrl?: string
     email: string
     techs?: Array<String>
+}
+
+export const mapGitUserToUser = (data: any): User => {
+    return {
+        email: data.email, 
+        id: String(data.id), 
+        photoUrl: data.avatar_url, 
+        techs: data.techs, 
+        username: data.login, 
+    }
 }

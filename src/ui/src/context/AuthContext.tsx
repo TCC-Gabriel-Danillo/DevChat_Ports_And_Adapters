@@ -1,80 +1,73 @@
 import { User } from '@domain/entities/models'
-import { createContext, useCallback } from 'react'
+import { createContext, useCallback, useState } from 'react'
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { GIT_CLIENT_ID, GIT_CLIENT_SECRET } from '../constants';
+import { 
+    GIT_CLIENT_ID, 
+    GIT_CLIENT_SECRET, 
+    GIT_REVOCATION_ENDPOINT, 
+    GIT_TOKEN_ENDPOINT, 
+    GIT_AUTHORIZATION_ENDPOINT, 
+    APP_SCHEME
+} from '../constants';
+import  { AuthUseCase } from "@domain/entities/usecases"
+import { alert } from "@ui/src/helpers"
 
 WebBrowser.maybeCompleteAuthSession();
 
 const discovery = {
-    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-    tokenEndpoint: 'https://github.com/login/oauth/access_token',
-    revocationEndpoint: `https://github.com/settings/connections/applications/${GIT_CLIENT_ID}`,
+    authorizationEndpoint: GIT_AUTHORIZATION_ENDPOINT,
+    tokenEndpoint: GIT_TOKEN_ENDPOINT,
+    revocationEndpoint: GIT_REVOCATION_ENDPOINT,
   };
 
-  
 interface Props {
     children: JSX.Element
+    authService:  AuthUseCase 
 }
 
 interface AuthInfo {
     loginWithGithub: () => Promise<void>
-    user: User
+    user?: User
+    isAuthenticated: boolean
 }
 
 export const AuthContext = createContext<AuthInfo>({} as AuthInfo)
 
-export function AuthContextProvider({ children }: Props){
+export function AuthContextProvider({ children, authService }: Props){
+    const [ user, setUser ] = useState<User>()
     const [,, promptAsync] = useAuthRequest(
         {
           clientId: GIT_CLIENT_ID,
           scopes: ['identity'],
           redirectUri: makeRedirectUri({
-            scheme: 'devchat.app'
+            scheme: APP_SCHEME
           }),
         },
         discovery
     );
     
     const loginWithGithub = useCallback(async () => {
-        const promptResponse  = await promptAsync();
+        try {
+            const promptResponse  = await promptAsync();
+            if(promptResponse.type !== 'success') throw new Error("Something went wrong")
 
-        if(promptResponse.type !== 'success') return 
-
-        const { code } = promptResponse.params
-        const response = await fetch('https://github.com/login/oauth/access_token', {
-            method: 'POST',
-            body: JSON.stringify({ 
+            const { code } = promptResponse.params
+            const credentials = { 
                 client_id: GIT_CLIENT_ID, 
                 client_secret: GIT_CLIENT_SECRET,  
                 code 
-            }), 
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
             }
-        })
-        
-        if(!response.ok) return
-
-        const json  = await response.json()
-        const { access_token } = json
-        const userResponse = await fetch('https://api.github.com/user', {
-            headers: {
-                authorization: `Bearer ${access_token}`
-            }
-        })
-
-        if(!userResponse.ok) return 
-            
-        const userJson = await userResponse.json()
-        console.log("🚀 ~ file: AuthContext.tsx ~ line 66 ~ loginWithGithub ~ userJson", userJson)   
-        
-
+            const userResponse = await authService.authenticateGithub(credentials)
+            setUser(userResponse)
+        } catch(error) {
+            console.error(error)
+            alert("Error to login with Git.")
+        }
     },[promptAsync])
 
     return (
-        <AuthContext.Provider value={{loginWithGithub, user: {} as User}}>
+        <AuthContext.Provider value={{ loginWithGithub, user, isAuthenticated: !!user }}>
             {children}
         </AuthContext.Provider>
     )

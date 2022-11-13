@@ -24,7 +24,7 @@ export class HttpRepositoryImp implements HttpRepository {
             throw new ServerError()
         }
    }
-    async get <T>(endpoint: string, params?: Record<string, any>, config?: any): Promise<T | undefined> {
+    async get <T>(endpoint: string, config?: any, params?: Record<string, any>): Promise<T | undefined> {
         try {
             const response = await this.api.get(endpoint, { ...config, params });
             return response.data as T;
@@ -40,7 +40,4 @@ export class HttpRepositoryImp implements HttpRepository {
         if (errorFromRes) return errorFromRes
         return new ServerError(message)
       }
-
-
-
 }

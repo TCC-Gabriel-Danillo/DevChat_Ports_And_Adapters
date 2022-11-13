@@ -1,4 +1,4 @@
 export interface DatabaseRepository {
     getAll<T>(): Promise<T[]> 
-    create(data: any): Promise<void>
+    createOrReplace(data: any, key?: string): Promise<void>
 }

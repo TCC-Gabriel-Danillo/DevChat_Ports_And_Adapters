@@ -4,7 +4,7 @@ import { DatabaseRepository } from '../../domain/repositories';
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
 
-    constructor( private readonly collection: string){}
+    constructor(private readonly collection: string){}
 
     async getAll<T>(): Promise<T[]> {
         const docsRef = query(collection(this.firestore, this.collection));
@@ -19,7 +19,7 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
         return result
     }
     
-    async create(data: any){
-        await setDoc(doc(collection(this.firestore, this.collection)), data)
+    async createOrReplace(data: any, key?: string){
+        await setDoc(doc(collection(this.firestore, this.collection), key), data)
     }
 }

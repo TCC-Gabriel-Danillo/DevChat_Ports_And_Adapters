@@ -1,9 +1,12 @@
-import { View, Text } from 'react-native'
+import { Container, Button } from '@ui/src/components'
+import { useAuth } from '@ui/src/hooks'
+import { styles } from './styles'
 
 export function HomeScreen(){
+    const { logout } = useAuth()
     return(
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>HomeScreen</Text>
-        </View>
+        <Container style={styles.container}>
+            <Button onPress={logout}>Logout</Button>
+        </Container>
     )
 }

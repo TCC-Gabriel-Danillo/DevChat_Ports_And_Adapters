@@ -7,7 +7,7 @@ import { MainNavigation } from './MainNavigation';
 
 export function Navigation() {
   const { isAuthenticated, isAuthenticating } = useAuth()
-
+  
     if(isAuthenticating) return <LoadingScreen />
     
     return (

@@ -1,10 +1,9 @@
 import "@ui/src/config/firabaseConfig"; 
 import { AuthContextProvider } from '@ui/src/context';
-import { AuthPage } from '@ui/src/pages';
 import { FirebaseDatabaseRepository, HttpRepositoryImp } from "@infrastructure/repositories"
 import {  AuthService } from "@domain/services"
-import { View } from 'react-native'
 import { FIREBASE_COLLECTION, GITHUB_URL } from "./src/constants";
+import { Navigation } from "@ui/src/navigation"
 
 export default function App() {
 
@@ -15,9 +14,7 @@ export default function App() {
 
   return (
     <AuthContextProvider authService={ authService }>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <AuthPage />
-      </View>
+        <Navigation />
     </AuthContextProvider>
   );
 }

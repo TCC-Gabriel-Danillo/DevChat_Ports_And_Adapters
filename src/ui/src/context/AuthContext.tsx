@@ -30,12 +30,15 @@ interface AuthInfo {
     loginWithGithub: () => Promise<void>
     user?: User
     isAuthenticated: boolean
+    isAuthenticating: boolean
 }
 
 export const AuthContext = createContext<AuthInfo>({} as AuthInfo)
 
 export function AuthContextProvider({ children, authService }: Props){
     const [ user, setUser ] = useState<User>()
+    const [ isAuthenticating, setAuthenticating ] = useState<boolean>(false)
+
     const [,, promptAsync] = useAuthRequest(
         {
           clientId: GIT_CLIENT_ID,
@@ -49,6 +52,7 @@ export function AuthContextProvider({ children, authService }: Props){
     
     const loginWithGithub = useCallback(async () => {
         try {
+            setAuthenticating(true)
             const promptResponse  = await promptAsync();
             if(promptResponse.type !== 'success') throw new Error("Something went wrong")
 
@@ -63,11 +67,13 @@ export function AuthContextProvider({ children, authService }: Props){
         } catch(error) {
             console.error(error)
             alert("Error to login with Git.")
+        } finally {
+            setAuthenticating(false)
         }
     },[promptAsync])
 
     return (
-        <AuthContext.Provider value={{ loginWithGithub, user, isAuthenticated: !!user }}>
+        <AuthContext.Provider value={{ loginWithGithub, user, isAuthenticating ,isAuthenticated: !!user }}>
             {children}
         </AuthContext.Provider>
     )

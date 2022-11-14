@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text } from 'react-native'
-import { useAuth } from '../hooks'
+import { useAuth } from '@ui/src/hooks'
 
 export function AuthScreen(){
     const { loginWithGithub } = useAuth()

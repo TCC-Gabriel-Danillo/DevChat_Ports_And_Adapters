@@ -1,9 +1,14 @@
-import { View, Text } from "react-native"
+import { Image } from 'react-native'
+import { Container, Text } from "@ui/src/components"
+import loadingImg from "@ui/assets/loading.png"
+
+import { styles } from './styles'
 
 export function LoadingScreen(){
     return (
-        <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
-            <Text>Loading...</Text>
-        </View>
+        <Container style={styles.container}>
+            <Image source={loadingImg} style={styles.loadingImg} />
+            <Text fontType="h2">Carregando...</Text>
+        </Container>
     )
 }

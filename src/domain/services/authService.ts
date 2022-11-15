@@ -1,5 +1,5 @@
-import { GitRepository, GitTokenDto, GitUser } from '../../infrastructure/dto/http';
-import { mapGitUserToUser, User } from '../entities/models';
+import { GitRepository, GitTokenDto, GitUser, mapGitUserToUser } from '../../infrastructure/dto/http';
+import { User } from '../entities/models';
 import { AuthUseCase, Credentials } from '../entities/usecases'
 import { DatabaseRepository, HttpRepository } from '../repositories';
 
@@ -26,7 +26,7 @@ export class AuthService implements AuthUseCase {
 
         const techs = this.getTechsInfoFromGitRepos(gitRepos)
 
-        const newUser = mapGitUserToUser({...gitUser, techs})
+        const newUser = mapGitUserToUser(gitUser, techs)
         await this.createUserIfNotExists(newUser)
         return newUser    
     }   

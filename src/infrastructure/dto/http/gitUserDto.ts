@@ -1,3 +1,5 @@
+import { User } from "../../../domain/entities/models";
+
 export interface GitUser {
     login: string;
     id: number;
@@ -31,4 +33,14 @@ export interface GitUser {
     following: number;
     created_at: Date;
     updated_at: Date;
+}
+
+export const mapGitUserToUser = (gitUser: GitUser, techs: Array<string>): User => {
+    return {
+        email: gitUser.email, 
+        id: String(gitUser.id), 
+        photoUrl: gitUser.avatar_url, 
+        techs: techs, 
+        username: gitUser.login, 
+    }
 }

@@ -18,7 +18,7 @@ export class AuthService implements AuthUseCase {
         const { access_token } = tokenResponse
 
         const [ gitUser, gitRepos ] = await Promise.all([
-            this.getUerInfo(access_token),
+            this.getUserInfo(access_token),
             this.getUserRepos(access_token)
         ])
 
@@ -40,7 +40,7 @@ export class AuthService implements AuthUseCase {
         })
     }
 
-    async getUerInfo(token: string): Promise<GitUser | undefined> {
+    async getUserInfo(token: string): Promise<GitUser | undefined> {
         return this.gitApiHttp.get<GitUser>('/user', {
             headers: { authorization: `Bearer ${token}` } 
         }); 

@@ -1,0 +1,3 @@
+export enum MAIN_SCREENS {
+    HOME_SCREEN="HOME_SCREEN"
+}

@@ -7,9 +7,9 @@ module.exports = function(api) {
         'module-resolver',
         {
           alias: {
-            '@config': '../config',
             '@domain': '../domain',
             '@infrastructure': '../infrastructure',
+            '@ui': '../ui',
           },
         },
       ]

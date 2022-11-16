@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigation } from '../../navigation';
+import { Navigation } from '@ui/src/navigation';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { AuthUseCase, Credentials } from '@domain/entities/usecases';
 import { User } from '@domain/entities/models';

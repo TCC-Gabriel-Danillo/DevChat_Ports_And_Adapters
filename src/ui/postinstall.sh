@@ -1,1 +1,1 @@
-cp -R ./node_modules ../../node_modules
+rm -rf ../../node_modules  && cp -R ./node_modules ../../node_modules

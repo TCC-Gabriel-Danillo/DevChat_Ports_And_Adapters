@@ -1,31 +1,19 @@
 import { User } from '@domain/entities/models'
 import { createContext, useCallback, useState } from 'react'
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { 
     GIT_CLIENT_ID, 
     GIT_CLIENT_SECRET, 
-    GIT_REVOCATION_ENDPOINT, 
-    GIT_TOKEN_ENDPOINT, 
-    GIT_AUTHORIZATION_ENDPOINT, 
-    APP_SCHEME,
     STORAGE_KEYS
 } from '../constants';
 import  { AuthUseCase } from "@domain/entities/usecases"
 import { alert } from "@ui/src/helpers"
 import { LocalStorageRepository } from '@domain/repositories';
 import { usePersistentState } from '@ui/src/hooks/usePersistentState';
-
-WebBrowser.maybeCompleteAuthSession();
-
-const discovery = {
-    authorizationEndpoint: GIT_AUTHORIZATION_ENDPOINT,
-    tokenEndpoint: GIT_TOKEN_ENDPOINT,
-    revocationEndpoint: GIT_REVOCATION_ENDPOINT,
-  };
+import { AuthPromptService } from '../hooks';
 
 interface Props {
     children: JSX.Element
+    authPromptService: AuthPromptService
     authService:  AuthUseCase 
     localStorageRepository: LocalStorageRepository
 }
@@ -40,27 +28,21 @@ interface AuthInfo {
 
 export const AuthContext = createContext<AuthInfo>({} as AuthInfo)
 
-export function AuthContextProvider({ children, authService, localStorageRepository }: Props){
+export function AuthContextProvider({ 
+    children, 
+    authService, 
+    localStorageRepository, 
+    authPromptService 
+}: Props){
+    
     const [ user, setUser, isCheckingState ] = usePersistentState<User>(STORAGE_KEYS.USERS, {} as User, localStorageRepository)
     const [ isAuthenticating, setAuthenticating ] = useState<boolean>(false)
-    const [,, promptAsync] = useAuthRequest(
-        {
-          clientId: GIT_CLIENT_ID,
-          scopes: ['identity'],
-          redirectUri: makeRedirectUri({
-            scheme: APP_SCHEME
-          }),
-        },
-        discovery
-    );
+    const { promptAuth } =  authPromptService
     
     const loginWithGithub = useCallback(async () => {
         try {
             setAuthenticating(true)
-            const promptResponse  = await promptAsync();
-            if(promptResponse.type !== 'success') throw new Error("Algo deu errado ao tentar logar.")
-
-            const { code } = promptResponse.params
+            const { code }  = await promptAuth();
             const credentials = { 
                 client_id: GIT_CLIENT_ID, 
                 client_secret: GIT_CLIENT_SECRET,  
@@ -76,7 +58,7 @@ export function AuthContextProvider({ children, authService, localStorageReposit
         } finally {
             setAuthenticating(false)
         }
-    },[promptAsync])
+    },[promptAuth])
 
     const logout = () => {
         setUser({} as User)

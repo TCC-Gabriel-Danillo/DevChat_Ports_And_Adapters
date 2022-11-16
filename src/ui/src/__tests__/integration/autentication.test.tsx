@@ -61,4 +61,23 @@ describe('Authentication', () => {
 
     expect(logoutButton).toBeTruthy()
   });
+
+  it('Should logout sucessfully', async () => {
+    await render(renderComponent())
+
+    // login
+    const button = await screen.getByText("Entrar com Github")
+    await act(async () => {
+      fireEvent.press(button);
+    })
+
+     // logout
+    const logoutButton = await screen.getByText("Logout")    
+    await act(async () => {
+      fireEvent.press(logoutButton);
+    })
+
+    expect(await screen.getByText("Bem vindo ao DevChat!")).toBeTruthy()
+  });
+
 });

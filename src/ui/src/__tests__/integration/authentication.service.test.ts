@@ -1,8 +1,8 @@
-import nock from "nock"
-import { DatabaseRepository, HttpRepository } from "@domain/repositories"
-import { HttpRepositoryImp } from "@infrastructure/repositories"
+import { DatabaseRepository } from "@domain/repositories"
+import { HttpRepositoryImp } from "@infrastructure/repositories/httpRepository"
 import { AuthService } from "@domain/services"
-
+import * as gitMock from "../mocks/http/github"
+import { GITHUB_URL } from "@ui/src/constants"
 class FirebaseDatabaseRepositoryStub implements DatabaseRepository {
     getAll<T>(): Promise<T[]> {
        return Promise.resolve( {} as T[])
@@ -11,19 +11,16 @@ class FirebaseDatabaseRepositoryStub implements DatabaseRepository {
 }
 
 describe('authService', ()=> {
+
     beforeAll(() => {
-        nock('https://api.github.com').get('/user').reply(200, {
-            email: "email", 
-            id: "id", 
-            photoUrl: "url", 
-            username: "username", 
-        })
-        nock('https://api.github.com').get('/user/repos').reply(200, [{ language: "language1" }])
-        nock('https://github.com/login/oauth').post('/access_token').reply(200, { access_token: "token" })
+        gitMock.mockAuthTokenRequest()
+        gitMock.mockReposRequest()
+        gitMock.mockUserRequest()
     })
+
     it("should return a user", async () => {
-        const gitApiHttp = new HttpRepositoryImp("https://api.github.com")
-        const gitAuthHttp = new HttpRepositoryImp("https://github.com/login/oauth")
+        const gitApiHttp = new HttpRepositoryImp(GITHUB_URL.API_BASE_URL)
+        const gitAuthHttp = new HttpRepositoryImp(GITHUB_URL.AUTH_BASE_URL)
         const userDbRepository = new FirebaseDatabaseRepositoryStub()
         const authService = new AuthService(gitAuthHttp, gitApiHttp, userDbRepository)
         
@@ -33,7 +30,7 @@ describe('authService', ()=> {
             client_secret: "any_client_secret"
         }
         const user = await authService.authenticateGithub(credentials)
-        expect(user).toBe({
+        expect(user).toEqual({
             email: "email", 
             id: "id", 
             photoUrl: "url", 

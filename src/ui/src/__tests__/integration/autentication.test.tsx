@@ -34,10 +34,10 @@ const authPromptServiceStub: AuthPromptService = {
   }
 }
 
-const renderComponent = () => {
-  const localStorageStub = new LocalStorageRepositoryStub()
-  const authServiceStub = new AuthServiceStub()
-
+const renderComponent = (
+  localStorageStub: LocalStorageRepository, 
+  authServiceStub: AuthUseCase
+) => {
   return( 
     <AuthContextProvider 
       authPromptService={authPromptServiceStub}
@@ -52,23 +52,28 @@ const renderComponent = () => {
 
 describe('Authentication', () => {
   it('Should redirect after authenticate', async () => {
-    await render(renderComponent())
+    const localStorageStub = new LocalStorageRepositoryStub()
+    const authServiceStub = new AuthServiceStub()
+    await render(renderComponent(localStorageStub, authServiceStub))
+
     const button = await screen.getByText("Entrar com Github")
     await act(async () => {
       fireEvent.press(button);
     })
-    const logoutButton = await screen.getByText("Logout")
+    const homeScreen = await screen.getByTestId("home_screen")
 
-    expect(logoutButton).toBeTruthy()
+    expect(homeScreen).toBeTruthy()
   });
 
   it('Should logout sucessfully', async () => {
-    await render(renderComponent())
+    const localStorageStub = new LocalStorageRepositoryStub()
+    const authServiceStub = new AuthServiceStub()
+    await render(renderComponent(localStorageStub, authServiceStub))
 
     // login
-    const button = await screen.getByText("Entrar com Github")
+    const loginButton = await screen.getByText("Entrar com Github")
     await act(async () => {
-      fireEvent.press(button);
+      fireEvent.press(loginButton);
     })
 
      // logout
@@ -77,7 +82,40 @@ describe('Authentication', () => {
       fireEvent.press(logoutButton);
     })
 
-    expect(await screen.getByText("Bem vindo ao DevChat!")).toBeTruthy()
+    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+  });
+
+  it('Should not login if authenticate with git returns undefined', async () => {
+    const localStorageStub = new LocalStorageRepositoryStub()
+    const authServiceStub = new AuthServiceStub()
+    
+    jest.spyOn(authServiceStub, 'authenticateGithub').mockImplementation(() => Promise.resolve(undefined));
+    await render(renderComponent(localStorageStub, authServiceStub))
+
+    // login
+    const button = await screen.getByText("Entrar com Github")
+    await act(async () => {
+      fireEvent.press(button);
+    })
+
+    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+
+  });
+  it('Should not login if authenticate with git throws an error', async () => {
+    const localStorageStub = new LocalStorageRepositoryStub()
+    const authServiceStub = new AuthServiceStub()
+    
+    jest.spyOn(authServiceStub, 'authenticateGithub').mockImplementation(() => Promise.reject(new Error("some error")));
+    await render(renderComponent(localStorageStub, authServiceStub))
+
+    // login
+    const button = await screen.getByText("Entrar com Github")
+    await act(async () => {
+      fireEvent.press(button);
+    })
+
+    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+
   });
 
 });

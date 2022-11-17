@@ -54,7 +54,7 @@ export function AuthContextProvider({
             
         } catch(error) {
             console.error(error)
-            alert("Error to login with Git.")
+            alert("Erro ao logar com o git.")
         } finally {
             setAuthenticating(false)
         }

@@ -3,6 +3,7 @@ import { HttpRepositoryImp } from "@infrastructure/repositories/httpRepository"
 import { AuthService } from "@domain/services"
 import * as gitMock from "../mocks/http/github"
 import { GITHUB_URL } from "@ui/src/constants"
+
 class FirebaseDatabaseRepositoryStub implements DatabaseRepository {
     getAll<T>(): Promise<T[]> {
        return Promise.resolve( {} as T[])

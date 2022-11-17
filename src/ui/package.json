@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "postinstall": "node ./postinstall.js",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.2.2",

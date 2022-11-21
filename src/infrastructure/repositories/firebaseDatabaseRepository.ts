@@ -1,13 +1,37 @@
-import { getFirestore, setDoc, doc, Firestore, collection, query, getDocs  } from 'firebase/firestore';
-import { DatabaseRepository } from '../../domain/repositories';
+import { Unsubscribe } from '@firebase/util';
+import { 
+    getFirestore, 
+    setDoc, 
+    doc, 
+    Firestore, 
+    collection, 
+    query, 
+    getDocs, 
+    onSnapshot,  
+    CollectionReference,
+    DocumentData
+} from 'firebase/firestore';
 
+import { DatabaseRepository } from '../../domain/repositories';
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
+    private unsubscribeFunction?: Unsubscribe
+    private readonly collection: string[]
 
-    constructor(private readonly collection: string){}
+    constructor(...collection: string[]){
+        this.collection = collection
+    }
+
+    private parseCollection(): CollectionReference<DocumentData>{
+        if(this.collection.length > 1){
+            return collection.apply(null, [this.firestore, ...this.collection])
+        }
+
+        return collection(this.firestore, this.collection[0])
+    }
 
     async getAll<T>(): Promise<T[]> {
-        const docsRef = query(collection(this.firestore, this.collection));
+        const docsRef = query(this.parseCollection());
         const docsSnap = await getDocs(docsRef)
 
         const result: T[] = []
@@ -20,6 +44,22 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
     }
     
     async createOrReplace(data: any, key?: string){
-        await setDoc(doc(collection(this.firestore, this.collection), key), data)
+        await setDoc(doc(this.parseCollection(), key), data)
+    }
+
+    /** @TODO maybe this could be a separated class "real time database" */  
+    watch<T>(cb: (data: T | T[]) => void): void {
+        const q = query(this.parseCollection());
+        this.unsubscribeFunction = onSnapshot(q, (querySnapShot) => {
+            const docs: T[] = []
+            querySnapShot.forEach(query => {
+                docs.push(query.data() as T)
+            })
+            cb(docs)
+        });
+    }
+
+    unwatch(): void{
+        this.unsubscribeFunction?.()
     }
 }

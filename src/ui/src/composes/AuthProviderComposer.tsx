@@ -13,17 +13,15 @@ export function AuthProviderComposer({ children }: Props){
     const gitAuthHttp = new HttpRepositoryImp(GITHUB_URL.AUTH_BASE_URL)
     const gitApiHttp = new HttpRepositoryImp(GITHUB_URL.API_BASE_URL)
     const userDbRepository = new FirebaseDatabaseRepository(FIREBASE_COLLECTION.USERS)
-    const conversationRepository = new FirebaseDatabaseRepository('DevChat_Conversations', '3LrrrZK8tHtAXzOiTCfI', 'DevChat_Messages')
-    conversationRepository.createOrReplace({"teste": "teste"}, "hi")
     const authService = new AuthService(gitAuthHttp, gitApiHttp, userDbRepository)
     const localStorageRepository = new LocalStorage()
 
     return(
-        <AuthContextProvider 
-        authPromptService={authPromptService}
-        authService={authService}
-        localStorageRepository={localStorageRepository}
-      >
+    <AuthContextProvider 
+      authPromptService={authPromptService}
+      authService={authService}
+      localStorageRepository={localStorageRepository}
+    >
         {children}
       </AuthContextProvider>
     )

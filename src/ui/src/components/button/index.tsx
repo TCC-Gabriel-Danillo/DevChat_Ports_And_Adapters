@@ -1,7 +1,7 @@
 import { BaseComponent } from '@ui/src/types/BaseComponent';
 import { ReactNode } from 'react';
 import { TouchableOpacity, ViewStyle, View } from 'react-native';
-import { Text } from "../text"
+import { Text } from "../Text"
 import { styles } from "./styles"
 
 interface Props extends BaseComponent {

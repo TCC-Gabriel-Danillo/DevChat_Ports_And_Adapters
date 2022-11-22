@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { useAuth } from '../hooks';
 import { LoadingScreen } from '../screens';
-import { AuthNavigation } from './AuthNavigation';
-import { MainNavigation } from './MainNavigation';
+import { AuthNavigation } from './auth';
+import { MainNavigation } from './main';
 
 
 export function Navigation() {

@@ -9,7 +9,7 @@ import { WHITE } from '@ui/src/constants';
 export function AuthScreen(){
     const { loginWithGithub } = useAuth()
     return(
-        <Container style={styles.container}>
+        <Container style={styles.container} testID="auth_screen">
             <Text fontType='h1' fontWeight='bold'>Bem vindo ao DevChat!</Text>
             <Text style={styles.subtitle}>Encontre incríveis desenvolvedores e troque experiências.</Text>
             <Image source={chatImg} style={styles.image}/>

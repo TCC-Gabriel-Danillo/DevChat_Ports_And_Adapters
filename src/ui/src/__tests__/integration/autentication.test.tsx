@@ -7,6 +7,7 @@ import { LocalStorageRepository } from '@domain/repositories';
 import { AuthContextProvider } from '@ui/src/context';
 import { AuthPromptService } from '@ui/src/hooks';
 import { act } from 'react-test-renderer';
+import { TEST_ID } from '@ui/src/constants';
 
 class AuthServiceStub implements AuthUseCase {
   async authenticateGithub (credentials: Credentials): Promise<User| undefined>{
@@ -60,7 +61,7 @@ describe('Authentication', () => {
     await act(async () => {
       fireEvent.press(button);
     })
-    const homeScreen = await screen.getByTestId("home_screen")
+    const homeScreen = await screen.getByTestId(TEST_ID.HOME)
 
     expect(homeScreen).toBeTruthy()
   });
@@ -77,12 +78,12 @@ describe('Authentication', () => {
     })
 
      // logout
-    const logoutButton = await screen.getByText("Logout")    
+    const logoutButton = await screen.getByTestId(TEST_ID.LOGOUT)    
     await act(async () => {
       fireEvent.press(logoutButton);
     })
 
-    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+    expect(await screen.getByTestId(TEST_ID.AUTH)).toBeTruthy()
   });
 
   it('Should not login if authenticate with git returns undefined', async () => {
@@ -98,7 +99,7 @@ describe('Authentication', () => {
       fireEvent.press(button);
     })
 
-    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+    expect(await screen.getByTestId(TEST_ID.AUTH)).toBeTruthy()
 
   });
   it('Should not login if authenticate with git throws an error', async () => {
@@ -114,7 +115,7 @@ describe('Authentication', () => {
       fireEvent.press(button);
     })
 
-    expect(await screen.getByTestId("auth_screen")).toBeTruthy()
+    expect(await screen.getByTestId(TEST_ID.AUTH)).toBeTruthy()
 
   });
 

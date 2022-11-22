@@ -7,7 +7,6 @@ import { LocalStorageRepository } from "@domain/repositories";
 import { AuthContextProvider } from "@ui/src/context";
 import { act } from "react-test-renderer";
 import { AuthPromptService } from "@ui/src/hooks";
-export {} from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 
 class AuthServiceStub implements AuthUseCase {
   async authenticateGithub(
@@ -110,6 +109,7 @@ describe("Authentication", () => {
 
     expect(await findByTestId("auth_screen")).toBeTruthy();
   });
+
   it("Should not login if authenticate with git throws an error", async () => {
     const localStorageStub = new LocalStorageRepositoryStub();
     const authServiceStub = new AuthServiceStub();

@@ -9,7 +9,9 @@ import {
     getDocs, 
     onSnapshot,  
     CollectionReference,
-    DocumentData
+    DocumentData,
+    updateDoc,
+    deleteDoc
 } from 'firebase/firestore';
 
 import { DatabaseRepository } from '../../domain/repositories';
@@ -43,9 +45,18 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
         return result
     }
     
-    async createOrReplace(data: any, key?: string){
-        await setDoc(doc(this.parseCollection(), key), data)
+    async createOrReplace(data: any, id?: string){
+        await setDoc(doc(this.parseCollection(), id), data)
     }
+
+    async update(data: any, id: string): Promise<void> {
+        await updateDoc(doc(this.parseCollection(), id), data)
+    }
+
+    async delete(id: string) {
+        await deleteDoc(doc(this.parseCollection(), id))
+    }
+
 
     /** @TODO maybe this could be a separated class "real time database" */  
     watch<T>(cb: (data: T | T[]) => void): void {

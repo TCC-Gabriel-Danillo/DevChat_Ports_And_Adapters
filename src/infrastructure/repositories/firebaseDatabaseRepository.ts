@@ -1,4 +1,3 @@
-import { Unsubscribe } from '@firebase/util';
 import { 
     getFirestore, 
     setDoc, 
@@ -7,7 +6,6 @@ import {
     collection, 
     query, 
     getDocs, 
-    onSnapshot,  
     CollectionReference,
     DocumentData,
     updateDoc,
@@ -17,7 +15,6 @@ import {
 import { DatabaseRepository } from '../../domain/repositories';
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
-    private unsubscribeFunction?: Unsubscribe
     private readonly collection: string[]
 
     constructor(...collection: string[]){
@@ -55,22 +52,5 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
 
     async delete(id: string) {
         await deleteDoc(doc(this.parseCollection(), id))
-    }
-
-
-    /** @TODO maybe this could be a separated class "real time database" */  
-    watch<T>(cb: (data: T | T[]) => void): void {
-        const q = query(this.parseCollection());
-        this.unsubscribeFunction = onSnapshot(q, (querySnapShot) => {
-            const docs: T[] = []
-            querySnapShot.forEach(query => {
-                docs.push(query.data() as T)
-            })
-            cb(docs)
-        });
-    }
-
-    unwatch(): void{
-        this.unsubscribeFunction?.()
-    }
+    }  
 }

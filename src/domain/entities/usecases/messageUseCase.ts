@@ -6,4 +6,5 @@ export interface MessageUseCase {
     updateMessage(message: Message): Promise<void>
     getAllMessages(): Promise<Message>
     listenMessages(cb: MessageChangeCallback): void
+    unlistenMessages(): void
 }

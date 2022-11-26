@@ -9,10 +9,11 @@ import {
     CollectionReference,
     DocumentData,
     updateDoc,
-    deleteDoc
+    deleteDoc, 
+    where
 } from 'firebase/firestore';
 
-import { DatabaseRepository } from '../../domain/repositories';
+import { Args, DatabaseRepository } from '../../domain/repositories';
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
     private readonly collection: string[]
@@ -21,16 +22,9 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
         this.collection = collection
     }
 
-    private parseCollection(): CollectionReference<DocumentData>{
-        if(this.collection.length > 1){
-            return collection.apply(null, [this.firestore, ...this.collection])
-        }
+    async getAll<T>(args?: Args): Promise<T[]> {
 
-        return collection(this.firestore, this.collection[0])
-    }
-
-    async getAll<T>(): Promise<T[]> {
-        const docsRef = query(this.parseCollection());
+        const docsRef = this.getRefFromArgs(args); 
         const docsSnap = await getDocs(docsRef)
 
         const result: T[] = []
@@ -53,4 +47,18 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
     async delete(id: string) {
         await deleteDoc(doc(this.parseCollection(), id))
     }  
+
+
+    private parseCollection(): CollectionReference<DocumentData>{
+        if(this.collection.length > 1){
+            return collection.apply(null, [this.firestore, ...this.collection])
+        }
+
+        return collection(this.firestore, this.collection[0])
+    }
+
+    private getRefFromArgs(args?: Args){
+        if(args) return query(this.parseCollection(), where(args.field, args.op, args.value)); 
+        return query(this.parseCollection());
+    }
 }

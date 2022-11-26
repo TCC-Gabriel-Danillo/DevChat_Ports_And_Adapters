@@ -1,6 +1,6 @@
 import { ConversationUseCase, ConversationCallback } from "../../domain/entities/usecases"
 import { Conversation, User } from "../entities/models";
-import { DatabaseRepository, OP, RealtimeDatabaseRepository,  } from "../../domain/repositories"
+import { DatabaseRepository, OP, ORDER, RealtimeDatabaseRepository,  } from "../../domain/repositories"
 import { 
     FirebaseConversationDTO, 
     FirebaseUserDto, 
@@ -26,7 +26,8 @@ export class ConversationService implements ConversationUseCase {
         }
 
         const orderArgs = {
-            field: "updatedAt"
+            field: "updatedAt", 
+            order: ORDER.DESC
         }
 
         const args = { filterArgs, orderArgs }
@@ -42,7 +43,8 @@ export class ConversationService implements ConversationUseCase {
         }
 
         const orderArgs = {
-            field: "updatedAt"
+            field: "updatedAt", 
+            order: ORDER.DESC
         }
 
         const args = { filterArgs, orderArgs }

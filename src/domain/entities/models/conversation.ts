@@ -5,4 +5,6 @@ export interface Conversation {
     users: Array<User>    
     lastMessage: string
     unreadNumber: number
+    createdAt: Date
+    updatedAt: Date
 }

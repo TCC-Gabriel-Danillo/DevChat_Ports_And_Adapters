@@ -8,6 +8,7 @@ import {
     CollectionReference,
     DocumentData,
 } from 'firebase/firestore';
+import { RealtimeDatabaseRepository } from "../../domain/repositories"
 
 export class FirebaseRealtimeDatabaseRepository  implements RealtimeDatabaseRepository {
     private unsubscribeFunction?: Unsubscribe

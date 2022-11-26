@@ -1,6 +1,6 @@
 import { View } from "react-native"
 
 
-export function ConversationScreen(){
+export function MessageScreen(){
     return <View />
 }

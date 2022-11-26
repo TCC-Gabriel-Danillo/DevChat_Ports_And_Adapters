@@ -16,9 +16,9 @@ export function HomeScreen(){
                     <Button 
                         key={conversation.id}
                         onPress={() => {
-                            navigation.navigate(MAIN_SCREENS.CONVERSATION_SCREEN, { 
+                            navigation.navigate(MAIN_SCREENS.MESSAGE_SCREEN, { 
                                 conversationId: conversation.id,
-                                users: conversation.users 
+                                participant: conversation.users[0] 
                             })
                     }}>
                         {conversation.id}

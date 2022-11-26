@@ -1,6 +1,13 @@
-import { ConversationUseCase, ConversationCallback } from "../../domain/entities/usecases"
+import { ConversationUseCase } from "../../domain/entities/usecases"
 import { Conversation, User } from "../entities/models";
-import { DatabaseRepository, OP, ORDER, RealtimeDatabaseRepository,  } from "../../domain/repositories"
+import { 
+    DatabaseRepository, 
+    OP, 
+    ORDER, 
+    RealtimeDatabaseRepository, 
+    VoidCallback
+} from "../../domain/repositories"
+
 import { 
     FirebaseConversationDTO, 
     FirebaseUserDto, 
@@ -18,24 +25,8 @@ export class ConversationService implements ConversationUseCase {
     deleteConversation(conversation: Conversation): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async getConversationsByUserId(userId: string): Promise<Conversation[]> {
-        const filterArgs = {
-            field: 'users', 
-            op: OP.CONTAINS,
-            value: userId 
-        }
 
-        const orderArgs = {
-            field: "updatedAt", 
-            order: ORDER.DESC
-        }
-
-        const args = { filterArgs, orderArgs }
-        const conversations = await this.conversationDatabaseRepository.getAll<FirebaseConversationDTO>(args); 
-        return Promise.all(conversations.map(fConversation => this.parseConversation(fConversation)))
-    }
-
-    listenConversationsByUserId(userId: string, cb:ConversationCallback): void {
+    listenConversationsByUserId(userId: string, cb: VoidCallback<Conversation>): void {
         const filterArgs = {
             field: 'users', 
             op: OP.CONTAINS,
@@ -50,7 +41,7 @@ export class ConversationService implements ConversationUseCase {
         const args = { filterArgs, orderArgs }
 
         this.conversationRealtimeDatabaseRepository.watch<FirebaseConversationDTO>(async (fConversations) => {
-            const conversations = await Promise.all(fConversations.map(fConversation => this.parseConversation(fConversation)))
+            const conversations = await Promise.all(fConversations.map(this.parseConversation))
             cb(conversations)
         }, args)
 

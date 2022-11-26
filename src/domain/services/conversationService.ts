@@ -19,27 +19,39 @@ export class ConversationService implements ConversationUseCase {
         throw new Error("Method not implemented.");
     }
     async getConversationsByUserId(userId: string): Promise<Conversation[]> {
-        const args = {
+        const filterArgs = {
             field: 'users', 
             op: OP.CONTAINS,
             value: userId 
         }
+
+        const orderArgs = {
+            field: "updatedAt"
+        }
+
+        const args = { filterArgs, orderArgs }
         const conversations = await this.conversationDatabaseRepository.getAll<FirebaseConversationDTO>(args); 
         return Promise.all(conversations.map(fConversation => this.parseConversation(fConversation)))
     }
 
     listenConversationsByUserId(userId: string, cb:ConversationCallback): void {
-        const args = {
-            field: "users",
-            op: OP.CONTAINS, 
-            value:  userId
+        const filterArgs = {
+            field: 'users', 
+            op: OP.CONTAINS,
+            value: userId 
         }
+
+        const orderArgs = {
+            field: "updatedAt"
+        }
+
+        const args = { filterArgs, orderArgs }
 
         this.conversationRealtimeDatabaseRepository.watch<FirebaseConversationDTO>(async (fConversations) => {
             const conversations = await Promise.all(fConversations.map(fConversation => this.parseConversation(fConversation)))
             cb(conversations)
         }, args)
-        
+
     }
     
     unlistenConversationsByUserId(): void {
@@ -52,11 +64,12 @@ export class ConversationService implements ConversationUseCase {
     }
 
     private async getUsersFromConversation(userIds: Array<string>): Promise<Array<User>> {
-        const args = {
+        const filterArgs = {
             field: 'id', 
             op: OP.IN,
             value: userIds
         }
+        const args = { filterArgs }
         const firebaseUsers = await this.userDatabaseRepository.getAll<FirebaseUserDto>(args); 
         return firebaseUsers.map(fUser => mapFirebaseToUser(fUser)); 
     }

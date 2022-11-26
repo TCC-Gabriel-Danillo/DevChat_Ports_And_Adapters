@@ -8,7 +8,7 @@ import {
     deleteDoc, 
 } from 'firebase/firestore';
 
-import { FilterArgs, DatabaseRepository } from '../../domain/repositories';
+import { QueryOptions, DatabaseRepository } from '../../domain/repositories';
 import { 
     parseFirebaseSnapshot, 
     parseCollection, 
@@ -26,7 +26,7 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
         return parseCollection(this.collections, this.firestore)
     }
 
-    async getAll<T>(args?: FilterArgs): Promise<T[]> {
+    async getAll<T>(args?: QueryOptions): Promise<T[]> {
         const docsRef = getRefFromArgs(this.collection, args); 
         const docsSnap = await getDocs(docsRef)
         return parseFirebaseSnapshot<T>(docsSnap)

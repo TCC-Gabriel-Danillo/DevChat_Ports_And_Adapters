@@ -5,7 +5,7 @@ import {
     Firestore, 
     onSnapshot,  
 } from 'firebase/firestore';
-import { FilterArgs, RealtimeDatabaseRepository, VoidCallback } from "../../domain/repositories"
+import { QueryOptions, RealtimeDatabaseRepository, VoidCallback } from "../../domain/repositories"
 
 export class FirebaseRealtimeDatabaseRepository  implements RealtimeDatabaseRepository {
     private unsubscribeFunction?: Unsubscribe
@@ -17,7 +17,7 @@ export class FirebaseRealtimeDatabaseRepository  implements RealtimeDatabaseRepo
         this.collections = collections
     }
 
-    watch<T>(cb: VoidCallback<T>, args: FilterArgs): void {
+    watch<T>(cb: VoidCallback<T>, args: QueryOptions): void {
         const collection = parseCollection(this.collections, this.firestore)
         const q = getRefFromArgs(collection, args);
         this.unsubscribeFunction = onSnapshot(q, (querySnapShot) => {

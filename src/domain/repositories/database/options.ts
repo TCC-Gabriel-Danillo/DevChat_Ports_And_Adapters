@@ -12,3 +12,13 @@ export interface FilterArgs {
     op: OP; 
     value: any
 }
+
+export interface OrderArgs {
+    field: string
+    order?: ORDER
+}
+
+export interface QueryOptions {
+    filterArgs?: FilterArgs
+    orderArgs?: OrderArgs
+}

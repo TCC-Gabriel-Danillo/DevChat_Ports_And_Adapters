@@ -3,12 +3,29 @@ import {
     DocumentData,
     query, 
     where, 
-    Query
+    Query,
+    orderBy
 } from 'firebase/firestore';
-import { Args } from '../../domain/repositories/database/options';
+import { ORDER, QueryOptions } from '../../domain/repositories/database/options';
 
 
-export const getRefFromArgs = (collection: CollectionReference<DocumentData>, args?: Args): Query<DocumentData> => {
-    if(args) return query(collection, where(args.field, args.op, args.value)); 
+export const getRefFromArgs = (collection: CollectionReference<DocumentData>, options?: QueryOptions): Query<DocumentData> => {
+    if(options?.filterArgs && options?.orderArgs) {
+        const { field: filterField, op, value  } = options.filterArgs
+        const { field: orderField, order } = options.orderArgs
+        return query(collection, where(filterField, op, value), orderBy(orderField, order || ORDER.ASC)); 
+    }
+
+    if(options?.filterArgs){
+        const { field: filterField, op, value  } = options.filterArgs
+        return query(collection, where(filterField, op, value)); 
+    }
+
+    if(options?.orderArgs){
+        const {field: orderField, order } = options.orderArgs
+        return query(collection, orderBy(orderField, order)); 
+    }
+
     return query(collection);
 }
+

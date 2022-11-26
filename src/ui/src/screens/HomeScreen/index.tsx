@@ -1,4 +1,4 @@
-import { Container, Button } from '@ui/src/components'
+import { Container, Button, Text } from '@ui/src/components'
 import { MAIN_SCREENS, TEST_ID } from '@ui/src/constants'
 import { useConversation } from '@ui/src/hooks'
 import { styles } from './styles'
@@ -6,9 +6,11 @@ import { useNavigation, NavigationProp } from "@react-navigation/native"
 import { NavOpts } from '@ui/src/navigation/main'
 
 export function HomeScreen(){
-    const { conversations } = useConversation()
+    const { conversations, isLoadingConversations } = useConversation()
     
     const navigation = useNavigation<NavigationProp<NavOpts>>()
+
+    if(isLoadingConversations) return <Text>Carregando...</Text>
     
     return(
         <Container style={styles.container} testID={TEST_ID.HOME}>

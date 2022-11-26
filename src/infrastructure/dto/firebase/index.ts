@@ -1,2 +1,3 @@
-export * from "./conversationDTO"
+export * from "./firebaseConversationDTO"
 export * from "./firebaseUserDto"
+export * from "./firebaseMessageDto"

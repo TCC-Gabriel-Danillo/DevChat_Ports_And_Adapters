@@ -2,7 +2,8 @@
 
 export enum OP {
     EQ = "==", 
-    CONTAINS = "array-contains"
+    CONTAINS = "array-contains",
+    IN = "in"
 }
 export interface Args {
     field: string; 

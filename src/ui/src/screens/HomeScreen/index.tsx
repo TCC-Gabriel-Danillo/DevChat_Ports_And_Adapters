@@ -7,6 +7,7 @@ import { NavOpts } from '@ui/src/navigation/main'
 
 export function HomeScreen(){
     const { conversations } = useConversation()
+    
     const navigation = useNavigation<NavigationProp<NavOpts>>()
     
     return(

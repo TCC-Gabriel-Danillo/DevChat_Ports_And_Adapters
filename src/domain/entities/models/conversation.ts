@@ -7,4 +7,5 @@ export interface Conversation {
     unreadNumber: number
     createdAt: Date
     updatedAt: Date
+    tech: string
 }

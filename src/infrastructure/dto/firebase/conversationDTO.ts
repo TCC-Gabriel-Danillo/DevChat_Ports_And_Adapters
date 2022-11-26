@@ -8,6 +8,7 @@ export interface FirebaseConversationDTO {
     users: string[]
     createdAt: Timestamp
     updatedAt: Timestamp
+    tech: string
 }
 
 export const mapFirebaseConversationToConversation = (
@@ -20,6 +21,8 @@ export const mapFirebaseConversationToConversation = (
         unreadNumber: firebaseConversation.unreadNumber, 
         users,
         createdAt: firebaseConversation.createdAt.toDate(), 
-        updatedAt: firebaseConversation.updatedAt.toDate()
+        updatedAt: firebaseConversation.updatedAt.toDate(), 
+        tech: firebaseConversation.tech
+
     }
 }

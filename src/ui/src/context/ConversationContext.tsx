@@ -5,7 +5,7 @@ import { useAuth } from '../hooks'
 
 
 interface ConversationContextInfo {
-    conversations: Conversation[]
+    conversations?: Conversation[]
 }
 
 export const ConversationContext = createContext<ConversationContextInfo>({} as ConversationContextInfo)
@@ -15,7 +15,7 @@ interface Props {
     conversationService: ConversationUseCase
 }
 
-export function CreateConversationContextProvider({ 
+export function ConversationContextProvider({ 
     children,  
     conversationService 
 }: Props){
@@ -27,7 +27,7 @@ export function CreateConversationContextProvider({
     
     useEffect(() => {
         getConversationsByUser()
-    }, [])
+    }, [userId])
 
     async function getConversationsByUser(){
         if(!userId) return

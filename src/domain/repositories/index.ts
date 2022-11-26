@@ -1,4 +1,5 @@
 export * from "./httpRepository"
-export * from "./databaseRepository"
+export * from "./database/databaseRepository"
 export * from "./localStorageRepository"
-export * from "./realtimeDatabaseRepository"
+export * from "./database/realtimeDatabaseRepository"
+export * from "./database/options"

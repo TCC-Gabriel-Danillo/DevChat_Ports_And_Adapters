@@ -5,7 +5,7 @@ import { styles } from './styles'
 
 export function HomeScreen(){
     const { conversations } = useConversation()
-    
+    console.log({ conversations })
     return(
         <Container style={styles.container} testID={TEST_ID.HOME}>
             <Text> Suas Conversas </Text>

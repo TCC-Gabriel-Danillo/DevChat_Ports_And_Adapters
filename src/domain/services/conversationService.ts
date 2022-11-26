@@ -1,6 +1,6 @@
-import { ConversationUseCase } from "../../domain/entities/usecases"
+import { ConversationUseCase, ConversationCallback } from "../../domain/entities/usecases"
 import { Conversation, User } from "../entities/models";
-import { DatabaseRepository, OP, RealtimeDatabaseRepository } from "../../domain/repositories"
+import { DatabaseRepository, OP, RealtimeDatabaseRepository,  } from "../../domain/repositories"
 import { 
     FirebaseConversationDTO, 
     FirebaseUserDto, 
@@ -28,12 +28,22 @@ export class ConversationService implements ConversationUseCase {
         return Promise.all(conversations.map(fConversation => this.parseConversation(fConversation)))
     }
 
-    listenConversation(cb: (conversations: Conversation[]) => void): void {
-        throw new Error("Method not implemented.");
+    listenConversationsByUserId(userId: string, cb:ConversationCallback): void {
+        const args = {
+            field: "users",
+            op: OP.CONTAINS, 
+            value:  userId
+        }
+
+        this.conversationRealtimeDatabaseRepository.watch<FirebaseConversationDTO>(async (fConversations) => {
+            const conversations = await Promise.all(fConversations.map(fConversation => this.parseConversation(fConversation)))
+            cb(conversations)
+        }, args)
+        
     }
     
-    unlistenConversation(): void {
-        throw new Error("Method not implemented.");
+    unlistenConversationsByUserId(): void {
+        this.conversationRealtimeDatabaseRepository.unwatch()
     }
 
     private async parseConversation(conversation: FirebaseConversationDTO): Promise<Conversation> {

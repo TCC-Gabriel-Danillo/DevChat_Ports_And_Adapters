@@ -1,35 +1,25 @@
 import { Unsubscribe } from '@firebase/util';
-import { parseFirebaseSnapshot } from '@infrastructure/helpers/parseFirebaseSnapshot';
+import { parseFirebaseSnapshot, parseCollection, getRefFromArgs } from '@infrastructure/helpers';
 import { 
     getFirestore, 
     Firestore, 
-    collection, 
-    query, 
     onSnapshot,  
-    CollectionReference,
-    DocumentData,
 } from 'firebase/firestore';
-import { RealtimeDatabaseRepository } from "../../domain/repositories"
+import { FilterArgs, RealtimeDatabaseRepository, VoidCallback } from "../../domain/repositories"
 
 export class FirebaseRealtimeDatabaseRepository  implements RealtimeDatabaseRepository {
     private unsubscribeFunction?: Unsubscribe
 
     private readonly firestore: Firestore = getFirestore()
-    private readonly collection: string[]
+    private readonly collections: string[]
 
-    constructor(...collection: string[]){
-        this.collection = collection
+    constructor(...collections: string[]){
+        this.collections = collections
     }
 
-    private parseCollection(): CollectionReference<DocumentData> {
-        if(this.collection.length > 1){
-            return collection.apply(null, [this.firestore, ...this.collection])
-        }
-        return collection(this.firestore, this.collection[0])
-    }
-
-    watch<T>(cb: (data: T | T[]) => void): void {
-        const q = query(this.parseCollection());
+    watch<T>(cb: VoidCallback<T>, args: FilterArgs): void {
+        const collection = parseCollection(this.collections, this.firestore)
+        const q = getRefFromArgs(collection, args);
         this.unsubscribeFunction = onSnapshot(q, (querySnapShot) => {
             const docs = parseFirebaseSnapshot<T>(querySnapShot)
             cb(docs)

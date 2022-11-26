@@ -26,14 +26,11 @@ export function ConversationContextProvider({
     const [conversations, setConversations] = useState<Conversation[]>([])
     
     useEffect(() => {
-        getConversationsByUser()
-    }, [userId])
-
-    async function getConversationsByUser(){
         if(!userId) return
-        const response = await conversationService.getConversationsByUserId(userId)
-        setConversations(response)
-    }
+        conversationService.listenConversationsByUserId(userId, setConversations)
+        return () => conversationService.unlistenConversationsByUserId()
+
+    }, [userId])
 
     return(
         <ConversationContext.Provider value={{ 

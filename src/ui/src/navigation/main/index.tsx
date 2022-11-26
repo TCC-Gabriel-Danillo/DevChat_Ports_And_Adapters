@@ -1,6 +1,6 @@
 import { User } from '@domain/entities/models';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ConvesationProviderComposer } from '@ui/src/composes';
+import { ConvesationProviderComposer, MessageProviderComposer } from '@ui/src/composes';
 import { MAIN_SCREENS } from '@ui/src/constants';
 import { MessageScreen, HomeScreen } from '@ui/src/screens';
 import { mainOptions } from "./options";
@@ -30,8 +30,12 @@ export function MainNavigation(){
                         options={({ route }) => ({ title: route.params.participant.username })}
                     >
                        {({ route })  => {
-                        console.log(route.params)
-                        return <MessageScreen />
+                        const { conversationId } = route.params
+                        return( 
+                            <MessageProviderComposer conversationId={conversationId}>
+                                <MessageScreen />
+                            </MessageProviderComposer>
+                        )
                        }}
                     </Stack.Screen>
             </Stack.Navigator>

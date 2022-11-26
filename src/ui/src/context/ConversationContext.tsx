@@ -34,8 +34,8 @@ export function ConversationContextProvider({
 
     }, [userId])
 
-    const onConversationChanged = (conversations: Conversation[]) => {
-        setConversations(conversations)
+    const onConversationChanged = (newConversations: Conversation[]) => {
+        setConversations(newConversations)
         setLoadingConversations(false)
     }
 

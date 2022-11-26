@@ -41,7 +41,7 @@ export class ConversationService implements ConversationUseCase {
         const args = { filterArgs, orderArgs }
 
         this.conversationRealtimeDatabaseRepository.watch<FirebaseConversationDTO>(async (fConversations) => {
-            const conversations = await Promise.all(fConversations.map(this.parseConversation))
+            const conversations = await Promise.all(fConversations.map((fconversation) => this.parseConversation(fconversation)))
             cb(conversations)
         }, args)
 
@@ -51,9 +51,9 @@ export class ConversationService implements ConversationUseCase {
         this.conversationRealtimeDatabaseRepository.unwatch()
     }
 
-    private async parseConversation(conversation: FirebaseConversationDTO): Promise<Conversation> {
-        const users = await this.getUsersFromConversation(conversation.users); 
-        return mapFirebaseConversationToConversation(conversation, users); 
+    private async parseConversation(fconversation: FirebaseConversationDTO): Promise<Conversation> {
+        const users = await this.getUsersFromConversation(fconversation.users); 
+        return mapFirebaseConversationToConversation(fconversation, users); 
     }
 
     private async getUsersFromConversation(userIds: Array<string>): Promise<Array<User>> {

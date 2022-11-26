@@ -34,7 +34,7 @@ export class MessageService implements MessageUseCase {
 
        const args = { orderArgs }
        this.messageRealtimeDatabaseRepository.watch<FirebaseMessageDTO>(async (fMessages) => {
-            const messages = await Promise.all(fMessages.map(this.parseMessage))
+            const messages = await Promise.all(fMessages.map((fMessage) => this.parseMessage(fMessage)))
             cb(messages)
        }, args)
     }
@@ -51,4 +51,5 @@ export class MessageService implements MessageUseCase {
         const fUser = await this.userDatabaseRepository.getOneById<FirebaseUserDto>(userId); 
         return mapFirebaseToUser(fUser)
     }
+
 }

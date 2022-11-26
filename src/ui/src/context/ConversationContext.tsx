@@ -1,7 +1,7 @@
 import { Conversation } from '@domain/entities/models'
 import { ConversationUseCase } from '@domain/entities/usecases'
 import { createContext, useState, useEffect, ReactNode } from 'react'
-import { useAuth } from '../hooks'
+import { useAuth } from '@ui/src/hooks/useAuth'
 
 
 interface ConversationContextInfo {

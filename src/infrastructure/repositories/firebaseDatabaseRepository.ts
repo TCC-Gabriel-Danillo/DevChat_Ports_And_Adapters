@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 
 import { Args, DatabaseRepository } from '../../domain/repositories';
+import { parseFirebaseSnapshot } from "../helpers/parseFirebaseSnapshot"
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
     private readonly collection: string[]
@@ -23,17 +24,9 @@ export class FirebaseDatabaseRepository implements DatabaseRepository {
     }
 
     async getAll<T>(args?: Args): Promise<T[]> {
-
         const docsRef = this.getRefFromArgs(args); 
         const docsSnap = await getDocs(docsRef)
-
-        const result: T[] = []
-        
-        docsSnap.forEach(snap => {
-            const data = snap.data() as T
-            result.push(data)
-        })
-        return result
+        return parseFirebaseSnapshot<T>(docsSnap)
     }
     
     async createOrReplace(data: any, id?: string){

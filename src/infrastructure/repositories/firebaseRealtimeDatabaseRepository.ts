@@ -1,4 +1,5 @@
 import { Unsubscribe } from '@firebase/util';
+import { parseFirebaseSnapshot } from '@infrastructure/helpers/parseFirebaseSnapshot';
 import { 
     getFirestore, 
     Firestore, 
@@ -30,10 +31,7 @@ export class FirebaseRealtimeDatabaseRepository  implements RealtimeDatabaseRepo
     watch<T>(cb: (data: T | T[]) => void): void {
         const q = query(this.parseCollection());
         this.unsubscribeFunction = onSnapshot(q, (querySnapShot) => {
-            const docs: T[] = []
-            querySnapShot.forEach(query => {
-                docs.push(query.data() as T)
-            })
+            const docs = parseFirebaseSnapshot<T>(querySnapShot)
             cb(docs)
         });
     }

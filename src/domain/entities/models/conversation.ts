@@ -1,7 +1,8 @@
 import { Message } from "./message"
+import { User } from "./user"
 
 export interface Conversation {
-    users: Array<string>    
-    lastMessage: Message
+    users: Array<User>    
+    lastMessage: string
     unreadNumber: number
 }

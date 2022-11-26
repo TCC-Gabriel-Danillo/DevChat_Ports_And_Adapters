@@ -39,7 +39,7 @@ export class MessageService implements MessageUseCase {
        }, args)
     }
     unlistenMessages(): void {
-        this.unlistenMessages(); 
+        this.messageRealtimeDatabaseRepository.unwatch() 
     }
 
     private async parseMessage(fMessage: FirebaseMessageDTO): Promise<Message> {

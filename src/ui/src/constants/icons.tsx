@@ -13,5 +13,5 @@ interface IconProps {
 export const ICONS = {
     CARRET_RIGHT: ({color = DARK, size = 24}: IconProps) =>  <FontAwesome name="caret-right" size={size} color={color} />, 
     GIT_HUB: ({color = DARK, size = 24}: IconProps) =>  <AntDesign name="github" size={size} color={color} />, 
-    LOGOUT: ({color = DARK, size = 24}: IconProps) => <MaterialCommunityIcons size={size} color={color} />
+    LOGOUT: ({color = DARK, size = 24}: IconProps) => <MaterialCommunityIcons name="logout" size={size} color={color} />
 }   

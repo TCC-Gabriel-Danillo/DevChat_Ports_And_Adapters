@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react"
 import { Message } from "@domain/entities/models"
 import { MessageUseCase } from "@domain/entities/usecases"
 import { useAuth } from "@ui/src/hooks/useAuth"
-import uuid from 'react-native-uuid';
+import { generateRandomId } from '@ui/src/utils/generateRandomId';
 
 interface Props {
     children: JSX.Element
@@ -36,7 +36,7 @@ export function MessageContextProvider({ children, messageService }: Props){
             message, 
             read: false, 
             sender: user, 
-            id: uuid.v4() as string
+            id: generateRandomId()
         }
         await messageService.sendMessage(newMessage)
     }

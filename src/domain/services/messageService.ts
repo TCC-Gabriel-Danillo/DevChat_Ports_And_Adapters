@@ -12,6 +12,7 @@ import {
     FirebaseMessageDTO,
     FirebaseUserDto, 
     mapFirebaseMessageToMessage, 
+    mapMessageToFirebaseMessage,
     mapFirebaseToUser, 
 } from "../../infrastructure/dto/firebase";
 
@@ -21,6 +22,11 @@ export class MessageService implements MessageUseCase {
         private readonly messageRealtimeDatabaseRepository: RealtimeDatabaseRepository,
         private readonly userDatabaseRepository: DatabaseRepository
     ){}
+
+    async sendMessage(message: Message): Promise<void> { 
+        const fMessage = mapMessageToFirebaseMessage(message)
+        await this.messageDatabaseRepository.createOrReplace(fMessage, fMessage.id)
+    }
 
     async updateMessage(message: Message): Promise<void> {
         await this.messageDatabaseRepository.update(message, message.id); 

@@ -18,3 +18,13 @@ export const mapFirebaseMessageToMessage = (fMessage: FirebaseMessageDTO, user: 
         sender: user
     }
 }
+
+export const mapMessageToFirebaseMessage = (message: Message): FirebaseMessageDTO  => {
+    return {
+        id: message.id, 
+        createdAt: Timestamp.fromDate(message.createdAt), 
+        message: message.message, 
+        read: message.read, 
+        senderId: message.sender.id
+    }
+}

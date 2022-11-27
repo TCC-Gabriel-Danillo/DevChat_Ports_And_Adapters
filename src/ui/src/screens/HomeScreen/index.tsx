@@ -1,5 +1,5 @@
-import { FlatList, TouchableOpacity } from "react-native"
-import { Container, Text, Loading, AddButton, UserCard } from '@ui/src/components'
+import { FlatList, TouchableOpacity, View } from "react-native"
+import { Container, Text, Loading, AddButton, UserCard, Badge } from '@ui/src/components'
 import { COLORS, ICONS, MAIN_SCREENS, TEST_ID } from '@ui/src/constants'
 import { useAuth, useConversation, useMainNavigation } from '@ui/src/hooks'
 import { styles } from './styles'
@@ -39,6 +39,9 @@ export function HomeScreen(){
                                 photoUrl={participant.photoUrl}
                                 title={participant.username}
                                 subtile={`Tema: ${conversation.tech}`}
+                            />
+                            <Badge 
+                                text={conversation.unreadNumber}
                             />
                             <ICONS.CARRET_RIGHT  color={COLORS.GREY}/>
                         </TouchableOpacity>

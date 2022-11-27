@@ -1,3 +1,4 @@
+import { ICON } from '@ui/src/constants';
 import { BaseComponent, UiType } from '@ui/src/types';
 import { ReactNode } from 'react';
 import { TouchableOpacity, ViewStyle, View } from 'react-native';
@@ -8,7 +9,7 @@ interface Props extends BaseComponent {
     children: ReactNode
     onPress: () => void
     style?: ViewStyle
-    icon?: any
+    icon?: JSX.Element
     type?: UiType
 }
 

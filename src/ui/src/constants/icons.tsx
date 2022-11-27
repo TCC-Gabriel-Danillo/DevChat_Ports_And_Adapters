@@ -15,3 +15,5 @@ export const ICONS = {
     GIT_HUB: ({color = COLORS.DARK, size = 24}: IconProps) =>  <AntDesign name="github" size={size} color={color} />, 
     LOGOUT: ({color = COLORS.DARK, size = 24}: IconProps) => <MaterialCommunityIcons name="logout" size={size} color={color} />
 }   
+
+export type ICON =  typeof ICONS[keyof typeof ICONS]

@@ -1,4 +1,4 @@
-import { DARK, PRIMARY, SECONDARY, WHITE } from "@ui/src/constants"
+import { COLORS} from "@ui/src/constants"
 import { StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
         alignItems: "center"
     }, 
     primary: {
-        backgroundColor: PRIMARY, 
-        color: WHITE,
+        backgroundColor: COLORS.PRIMARY, 
+        color: COLORS.WHITE,
         fontSize: 30
     }, 
     secondary: {
-        backgroundColor: SECONDARY, 
-        color: DARK, 
+        backgroundColor: COLORS.SECONDARY, 
+        color: COLORS.DARK, 
         fontSize: 30
     }
 })

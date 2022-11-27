@@ -3,7 +3,7 @@ import { useAuth } from '@ui/src/hooks'
 import { Button, Container, Text } from "@ui/src/components"
 import chatImg from '@ui/assets/chat.png'
 import { styles } from './styles';
-import { TEST_ID, WHITE, ICONS } from '@ui/src/constants';
+import { TEST_ID, COLORS, ICONS } from '@ui/src/constants';
 
 export function AuthScreen(){
     const { loginWithGithub } = useAuth()
@@ -15,7 +15,7 @@ export function AuthScreen(){
             <Button 
                 style={styles.loginBtn}
                 onPress={loginWithGithub} 
-                icon={<ICONS.GIT_HUB size={24} color={WHITE} />}
+                icon={<ICONS.GIT_HUB size={24} color={COLORS.WHITE} />}
             >
                 Entrar com Github
             </Button>

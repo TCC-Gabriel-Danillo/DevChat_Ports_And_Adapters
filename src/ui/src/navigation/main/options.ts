@@ -1,10 +1,10 @@
 import { LogoutButton } from "@ui/src/components";
-import { PRIMARY, WHITE } from "@ui/src/constants";
+import { COLORS } from "@ui/src/constants";
 
 export const mainOptions = {
     headerStyle: {
-        backgroundColor: PRIMARY, 
+        backgroundColor: COLORS.PRIMARY, 
     }, 
-    headerTintColor: WHITE, 
+    headerTintColor: COLORS.WHITE, 
     headerRight: LogoutButton
 }

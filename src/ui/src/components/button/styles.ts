@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { PRIMARY, WHITE, SECONDARY, DARK } from "@ui/src/constants"
+import { COLORS } from "@ui/src/constants"
 
 export const styles = StyleSheet.create({
     button: {
@@ -12,17 +12,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row'
     }, 
     primary: {
-        backgroundColor: PRIMARY, 
+        backgroundColor: COLORS.PRIMARY, 
     }, 
     secondary: {
-        backgroundColor: SECONDARY, 
+        backgroundColor: COLORS.SECONDARY, 
 
     },
     buttonTextPrimary: {
-        color: WHITE, 
+        color: COLORS.WHITE, 
     }, 
     buttonTextSecondary: {
-        color: DARK, 
+        color: COLORS.DARK, 
     }, 
     icon: {
         marginRight: 8

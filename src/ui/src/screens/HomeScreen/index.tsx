@@ -40,8 +40,10 @@ export function HomeScreen(){
                                 title={participant.username}
                                 subtile={`Tema: ${conversation.tech}`}
                             />
+                            
                             <Badge 
                                 text={conversation.unreadNumber}
+                                style={styles.unreadNumber}
                             />
                             <ICONS.CARRET_RIGHT  color={COLORS.GREY}/>
                         </TouchableOpacity>

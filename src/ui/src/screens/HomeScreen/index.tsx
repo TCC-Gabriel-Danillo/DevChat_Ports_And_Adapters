@@ -1,4 +1,4 @@
-import { Container, Button, Text } from '@ui/src/components'
+import { Container, Button, Text, AddButton } from '@ui/src/components'
 import { MAIN_SCREENS, TEST_ID } from '@ui/src/constants'
 import { useConversation } from '@ui/src/hooks'
 import { styles } from './styles'
@@ -11,6 +11,10 @@ export function HomeScreen(){
     const navigation = useNavigation<NavigationProp<NavOpts>>()
 
     if(isLoadingConversations) return <Text>Carregando...</Text>
+    
+    const goToTechScreen = () => {
+        navigation.navigate(MAIN_SCREENS.TECH_SCREEN); 
+    }
     
     return(
         <Container style={styles.container} testID={TEST_ID.HOME}>
@@ -28,7 +32,7 @@ export function HomeScreen(){
                     </Button>
                 ))
             }
-      
+            <AddButton style={styles.addButton} onPress={goToTechScreen} />
         </Container>
     )
 }

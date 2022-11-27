@@ -17,11 +17,11 @@ export function AuthProviderComposer({ children }: Props){
     const localStorageRepository = new LocalStorage()
 
     return(
-    <AuthContextProvider 
-      authPromptService={authPromptService}
-      authService={authService}
-      localStorageRepository={localStorageRepository}
-    >
+      <AuthContextProvider 
+        authPromptService={authPromptService}
+        authService={authService}
+        localStorageRepository={localStorageRepository}
+      >
         {children}
       </AuthContextProvider>
     )

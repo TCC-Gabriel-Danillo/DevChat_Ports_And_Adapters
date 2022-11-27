@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native"
-import { PRIMARY, WHITE } from "@ui/src/constants"
+import { PRIMARY, WHITE, SECONDARY, DARK } from "@ui/src/constants"
 
 export const styles = StyleSheet.create({
     button: {
-        backgroundColor: PRIMARY, 
         width: "100%", 
         height: 40, 
         justifyContent: "center", 
@@ -12,8 +11,18 @@ export const styles = StyleSheet.create({
         borderRadius: 5, 
         flexDirection: 'row'
     }, 
-    buttonText: {
+    primary: {
+        backgroundColor: PRIMARY, 
+    }, 
+    secondary: {
+        backgroundColor: SECONDARY, 
+
+    },
+    buttonTextPrimary: {
         color: WHITE, 
+    }, 
+    buttonTextSecondary: {
+        color: DARK, 
     }, 
     icon: {
         marginRight: 8

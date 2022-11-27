@@ -7,3 +7,4 @@ export * from './screens/mainScreens'
 export * from './fonts'
 export * from './storageKeys'
 export * from "./testId"
+export * from "./icons"

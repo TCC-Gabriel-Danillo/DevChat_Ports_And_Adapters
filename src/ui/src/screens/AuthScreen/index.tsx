@@ -1,10 +1,9 @@
 import { Image } from 'react-native'
 import { useAuth } from '@ui/src/hooks'
-import { AntDesign } from '@expo/vector-icons';
 import { Button, Container, Text } from "@ui/src/components"
 import chatImg from '@ui/assets/chat.png'
 import { styles } from './styles';
-import { TEST_ID, WHITE } from '@ui/src/constants';
+import { TEST_ID, WHITE, ICONS } from '@ui/src/constants';
 
 export function AuthScreen(){
     const { loginWithGithub } = useAuth()
@@ -16,7 +15,7 @@ export function AuthScreen(){
             <Button 
                 style={styles.loginBtn}
                 onPress={loginWithGithub} 
-                icon={<AntDesign name="github" size={24} color={WHITE} />}
+                icon={<ICONS.GIT_HUB size={24} color={WHITE} />}
             >
                 Entrar com Github
             </Button>

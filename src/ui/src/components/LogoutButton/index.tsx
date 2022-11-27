@@ -1,5 +1,4 @@
-import MaterialCommunityIcons from "@expo/vector-icons/build/MaterialCommunityIcons"
-import { TEST_ID, WHITE } from "@ui/src/constants"
+import { ICONS, TEST_ID, WHITE } from "@ui/src/constants"
 import { useAuth } from "@ui/src/hooks"
 import React from "react"
 import { IconButton } from "../IconButton"
@@ -10,7 +9,7 @@ export function LogoutButton(){
         <IconButton 
             testID={TEST_ID.LOGOUT}
             onPress={logout} 
-            icon={ <MaterialCommunityIcons name="logout" size={24} color={WHITE} /> } 
+            icon={ <ICONS.LOGOUT size={24} color={WHITE} /> } 
         />
     )
 }

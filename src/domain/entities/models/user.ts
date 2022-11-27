@@ -3,5 +3,5 @@ export interface User {
     id: string
     photoUrl?: string
     email: string
-    techs?: Array<String>
+    techs?: Array<string>
 }

@@ -1,9 +1,9 @@
-import { BaseComponent } from '@ui/src/types/BaseComponent';
+import { BaseComponent } from '@ui/src/types';
 import { ReactNode } from 'react';
 import { TextStyle, Text as RnText } from 'react-native';
 import { styles } from "./styles"
 
-interface Props extends BaseComponent{
+interface Props extends BaseComponent {
     fontType?: 'h1' | 'h2' | 'p'
     fontWeight?: 'bold' | 'semibold' | 'regular'
     style?: TextStyle

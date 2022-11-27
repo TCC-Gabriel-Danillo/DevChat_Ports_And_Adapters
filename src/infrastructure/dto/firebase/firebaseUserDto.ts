@@ -5,7 +5,7 @@ export interface FirebaseUserDto {
     id: string
     photoUrl?: string
     email: string
-    techs?: Array<String>
+    techs?: Array<string>
 }
 
 export const mapFirebaseToUser = (firebaseUser: FirebaseUserDto): User => {

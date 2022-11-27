@@ -8,3 +8,4 @@ export * from './fonts'
 export * from './storageKeys'
 export * from "./testId"
 export * from "./icons"
+export * from "./dimensions"

@@ -1,4 +1,4 @@
-import { Container, Button, Text, AddButton } from '@ui/src/components'
+import { Container, Button, Loading, AddButton } from '@ui/src/components'
 import { MAIN_SCREENS, TEST_ID } from '@ui/src/constants'
 import { useConversation, useMainNavigation } from '@ui/src/hooks'
 import { styles } from './styles'
@@ -7,7 +7,7 @@ export function HomeScreen(){
     const { conversations, isLoadingConversations } = useConversation()
     const navigation = useMainNavigation()
     
-    if(isLoadingConversations) return <Text>Carregando...</Text>
+    if(isLoadingConversations) return <Loading />
     
     const goToTechScreen = () => {
         navigation.navigate(MAIN_SCREENS.TECH_SCREEN); 

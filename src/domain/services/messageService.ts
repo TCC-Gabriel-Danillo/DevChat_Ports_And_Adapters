@@ -35,7 +35,7 @@ export class MessageService implements MessageUseCase {
     listenMessages(cb: VoidCallback<Message>): void {
         const orderArgs = {
             field: "createdAt", 
-            order: ORDER.DESC
+            order: ORDER.ASC
         }
 
        const args = { orderArgs }

@@ -4,6 +4,7 @@ import { useAuth, useMessages } from "@ui/src/hooks"
 import { MessageBallon, Loading, Container, MessageInput } from "@ui/src/components"
 import { Message } from "@domain/entities/models"
 import { parseDate } from "@ui/src/utils"
+import styles from "./style"
 
 
 
@@ -16,17 +17,16 @@ export function MessageScreen() {
     // console.log(changed)
     //   }, []);
 
-
-
     if (isLoadingMessages) return <Loading />
+
     return (
         <Container
-            style={{ flex: 1, height: "100%" }}
+            style={styles.container}
         >
             <FlatList<Message>
                 inverted
                 ref={flatListRef}
-                style={{ marginBottom: 50 }}
+                style={styles.list}
                 // onViewableItemsChanged={handleViawbleChange}
                 viewabilityConfig={{ viewAreaCoveragePercentThreshold: 100 }}
                 data={messages}

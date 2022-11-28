@@ -1,25 +1,25 @@
 import { Container } from "@ui/src/components";
 import { Text, Loading } from "@ui/src/components"
 import { useUsers } from "@ui/src/hooks/useUsers";
-import { useRoute } from "@react-navigation/native"
-import { NavOpts } from "@ui/src/navigation/main";
 import { MAIN_SCREENS } from "@ui/src/constants";
-import { RouteProp } from "@react-navigation/native";
 import { useEffect } from "react";
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
 import { Empty, UserCard } from "@ui/src/components";
 import { parseArrayToString } from "@ui/src/utils";
 import styles from "./styles"
+import { useAuth, useConversation, useMainNavigation, useMainRoute } from "@ui/src/hooks";
+import { User } from "@domain/entities/models";
 
 export function UsersScreen(){
     const { users, getUsersByTech, isLoadingUsers } = useUsers()
-    const { params } = useRoute<RouteProp<NavOpts, MAIN_SCREENS.USERS_SCREEN>>()
+    const { params } = useMainRoute<MAIN_SCREENS.USERS_SCREEN>()  
+    const navigation = useMainNavigation()
+    const { conversations, createNewConversation } = useConversation()
+    const { user: authenticatedUsed } = useAuth()
 
     useEffect(() => {
         getUsersByTech(params.tech)
     }, [])
-
-    if(isLoadingUsers) return <Loading />
 
     const renderUserList = () => {
         return (
@@ -27,17 +27,56 @@ export function UsersScreen(){
                 data={users}
                 renderItem={({item: user}) => {
                     return(
-                        <UserCard 
-                            style={styles.userCard}
-                            photoUrl={user.photoUrl}
-                            title={user.username}
-                            subtile={parseArrayToString(user.techs, { limit: 5, separator:", "})}
-                        /> 
+                        <TouchableOpacity
+                            onPress={() => onUserPressed(user)}
+                        >
+                            <UserCard 
+                                style={styles.userCard}
+                                photoUrl={user.photoUrl}
+                                title={user.username}
+                                subtile={parseArrayToString(user.techs, { limit: 5, separator:", "})}
+                            /> 
+                        </TouchableOpacity>
                     )
                 }}
             />
         )
     }
+
+
+    const onUserPressed = async (user: User) => {
+        
+        if(!authenticatedUsed) return 
+
+        const conversationExists = checkIfConversationExists(user)
+        if(conversationExists){
+            goToMessageScreen(conversationExists.id, user); 
+            return
+        }
+
+        const participants = [authenticatedUsed, user]
+        const newConversation = await createNewConversation(participants, params.tech)
+        goToMessageScreen(newConversation.id, user); 
+    }
+
+    const checkIfConversationExists = (user: User) => {
+        return conversations?.filter(conversation => {
+            return conversation.tech === params.tech && conversation.users.map(_user => _user.id).includes(user.id)
+        })[0]
+    }
+
+
+    const goToMessageScreen = (conversationId: string, participant: User) => {
+        navigation.navigate(MAIN_SCREENS.MESSAGE_SCREEN, { 
+            conversationId: conversationId,
+            participant: participant
+        })
+    }
+
+
+    if(isLoadingUsers) return <Loading />
+
+ 
 
     return(
         <Container>

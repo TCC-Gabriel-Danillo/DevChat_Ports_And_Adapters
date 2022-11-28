@@ -12,7 +12,8 @@ import {
     FirebaseConversationDTO, 
     FirebaseUserDto, 
     mapFirebaseToUser, 
-    mapFirebaseConversationToConversation 
+    mapFirebaseConversationToConversation, 
+    mapConversationToFirebaseConversation
 } from "../../infrastructure/dto/firebase";
 
 export class ConversationService implements ConversationUseCase {
@@ -22,8 +23,13 @@ export class ConversationService implements ConversationUseCase {
         private readonly conversationRealtimeDatabaseRepository: RealtimeDatabaseRepository
     ){}
 
-    deleteConversation(conversation: Conversation): Promise<void> {
-        throw new Error("Method not implemented.");
+    async createConversation(conversation: Conversation): Promise<void> {
+        const fConversation = mapConversationToFirebaseConversation(conversation); 
+        await this.conversationDatabaseRepository.createOrReplace(fConversation, fConversation.id)
+    }
+
+    async deleteConversation(conversation: Conversation): Promise<void> {
+        await this.conversationDatabaseRepository.delete(conversation.id)
     }
 
     listenConversationsByUserId(userId: string, cb: VoidCallback<Conversation>): void {

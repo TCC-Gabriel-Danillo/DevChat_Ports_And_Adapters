@@ -1,9 +1,8 @@
-import { Conversation, User } from "@domain/entities/models";
+import { Conversation, User } from "../../../domain/entities/models";
 import { Timestamp } from "@firebase/firestore";
 
 export interface FirebaseConversationDTO {
     id: string
-    lastMessage: string 
     unreadNumber: number
     users: string[]
     createdAt: Timestamp
@@ -17,12 +16,22 @@ export const mapFirebaseConversationToConversation = (
 ): Conversation => {
     return {
         id: firebaseConversation.id,
-        lastMessage: firebaseConversation.lastMessage, 
         unreadNumber: firebaseConversation.unreadNumber, 
         users,
         createdAt: firebaseConversation.createdAt.toDate(), 
         updatedAt: firebaseConversation.updatedAt.toDate(), 
         tech: firebaseConversation.tech
 
+    }
+}
+
+export const mapConversationToFirebaseConversation = (conversation: Conversation): FirebaseConversationDTO => {
+    return {
+        id: conversation.id, 
+        tech: conversation.tech, 
+        unreadNumber: conversation.unreadNumber, 
+        users: conversation.users.map(user => user.id), 
+        createdAt: Timestamp.fromDate(conversation.createdAt), 
+        updatedAt: Timestamp.fromDate(conversation.updatedAt)
     }
 }

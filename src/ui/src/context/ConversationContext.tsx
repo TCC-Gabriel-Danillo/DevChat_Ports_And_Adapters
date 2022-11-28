@@ -1,12 +1,14 @@
-import { Conversation } from '@domain/entities/models'
+import { Conversation, User } from '@domain/entities/models'
 import { ConversationUseCase } from '@domain/entities/usecases'
 import { createContext, useState, useEffect, ReactNode } from 'react'
 import { useAuth } from '@ui/src/hooks/useAuth'
+import { generateRandomId } from '@ui/src/utils/generateRandomId';
 
 
 interface ConversationContextInfo {
     conversations?: Conversation[]
     isLoadingConversations: boolean
+    createNewConversation: (users: User[], tech: string) => Promise<Conversation>
 }
 
 export const ConversationContext = createContext<ConversationContextInfo>({} as ConversationContextInfo)
@@ -39,10 +41,24 @@ export function ConversationContextProvider({
         setLoadingConversations(false)
     }
 
+    const createNewConversation = async (users: User[], tech: string) => {
+        const newConversation: Conversation = {
+            id: generateRandomId(), 
+            createdAt: new Date(), 
+            updatedAt: new Date(), 
+            unreadNumber: 0, 
+            tech, 
+            users
+        }
+        await conversationService.createConversation(newConversation)
+        return newConversation
+    }
+
     return(
         <ConversationContext.Provider value={{ 
             conversations, 
-            isLoadingConversations
+            isLoadingConversations, 
+            createNewConversation
         }}>
             {children}
         </ConversationContext.Provider>

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     balloon: {
         padding: 30,
-        width: 300,
+        width: 250,
         backgroundColor: COLORS.SECONDARY,
         marginBottom: 10,
         justifyContent: "center",

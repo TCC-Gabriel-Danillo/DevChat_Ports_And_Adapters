@@ -41,10 +41,10 @@ export function HomeScreen(){
                                 subtile={`Tema: ${conversation.tech}`}
                             />
                             
-                            <Badge 
+                            {!!conversation.unreadNumber && <Badge 
                                 text={conversation.unreadNumber}
                                 style={styles.unreadNumber}
-                            />
+                            />}
                             <ICONS.CARRET_RIGHT  color={COLORS.GREY}/>
                         </TouchableOpacity>
                     )

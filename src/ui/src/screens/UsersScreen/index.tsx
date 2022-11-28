@@ -8,11 +8,11 @@ import { Empty, UserCard } from "@ui/src/components";
 import { parseArrayToString } from "@ui/src/utils";
 import styles from "./styles"
 import { useAuth, useConversation, useMainNavigation, useMainRoute } from "@ui/src/hooks";
-import { User } from "@domain/entities/models";
+import { Conversation, User } from "@domain/entities/models";
 
-export function UsersScreen(){
+export function UsersScreen() {
     const { users, getUsersByTech, isLoadingUsers } = useUsers()
-    const { params } = useMainRoute<MAIN_SCREENS.USERS_SCREEN>()  
+    const { params } = useMainRoute<MAIN_SCREENS.USERS_SCREEN>()
     const navigation = useMainNavigation()
     const { conversations, createNewConversation } = useConversation()
     const { user: authenticatedUsed } = useAuth()
@@ -23,19 +23,19 @@ export function UsersScreen(){
 
     const renderUserList = () => {
         return (
-            <FlatList 
+            <FlatList
                 data={users}
-                renderItem={({item: user}) => {
-                    return(
+                renderItem={({ item: user }) => {
+                    return (
                         <TouchableOpacity
                             onPress={() => onUserPressed(user)}
                         >
-                            <UserCard 
+                            <UserCard
                                 style={styles.userCard}
                                 photoUrl={user.photoUrl}
                                 title={user.username}
-                                subtile={parseArrayToString(user.techs, { limit: 5, separator:", "})}
-                            /> 
+                                subtile={parseArrayToString(user.techs, { limit: 5, separator: ", " })}
+                            />
                         </TouchableOpacity>
                     )
                 }}
@@ -45,18 +45,18 @@ export function UsersScreen(){
 
 
     const onUserPressed = async (user: User) => {
-        
-        if(!authenticatedUsed) return 
+
+        if (!authenticatedUsed) return
 
         const conversationExists = checkIfConversationExists(user)
-        if(conversationExists){
-            goToMessageScreen(conversationExists.id, user); 
+        if (conversationExists) {
+            goToMessageScreen(conversationExists, user);
             return
         }
 
         const participants = [authenticatedUsed, user]
         const newConversation = await createNewConversation(participants, params.tech)
-        goToMessageScreen(newConversation.id, user); 
+        goToMessageScreen(newConversation, user);
     }
 
     const checkIfConversationExists = (user: User) => {
@@ -66,27 +66,27 @@ export function UsersScreen(){
     }
 
 
-    const goToMessageScreen = (conversationId: string, participant: User) => {
-        navigation.navigate(MAIN_SCREENS.MESSAGE_SCREEN, { 
-            conversationId: conversationId,
-            participant: participant
+    const goToMessageScreen = (conversation: Conversation, participant: User) => {
+        navigation.navigate(MAIN_SCREENS.MESSAGE_SCREEN, {
+            conversation,
+            participant
         })
     }
 
 
-    if(isLoadingUsers) return <Loading />
+    if (isLoadingUsers) return <Loading />
 
- 
 
-    return(
+
+    return (
         <Container>
             <Text>
                 Usuários interessados na tecnologia <Text fontWeight="bold" >{params.tech}:</Text>
             </Text>
-           {users.length ? 
-                renderUserList() : 
-                <Empty message="Não há usuários interessados nessa tecnologia."/>
+            {users.length ?
+                renderUserList() :
+                <Empty message="Não há usuários interessados nessa tecnologia." />
             }
         </Container>
-    )    
+    )
 }

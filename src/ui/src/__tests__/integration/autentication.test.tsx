@@ -1,12 +1,13 @@
-import React from "react";
-import { Navigation } from "@ui/src/navigation";
+import React from 'react';
+import { Navigation } from '@ui/src/navigation';
 import { render, fireEvent } from "@testing-library/react-native";
-import { AuthUseCase, Credentials } from "@domain/entities/usecases";
-import { User } from "@domain/entities/models";
-import { LocalStorageRepository } from "@domain/repositories";
-import { AuthContextProvider } from "@ui/src/context";
-import { act } from "react-test-renderer";
-import { AuthPromptService } from "@ui/src/hooks";
+import { AuthUseCase, Credentials } from '@domain/entities/usecases';
+import { User } from '@domain/entities/models';
+import { LocalStorageRepository } from '@domain/repositories';
+import { AuthContextProvider } from '@ui/src/context';
+import { AuthPromptService } from '@ui/src/hooks';
+import { act } from 'react-test-renderer';
+import { TEST_ID } from '@ui/src/constants';
 
 class AuthServiceStub implements AuthUseCase {
   async authenticateGithub(
@@ -63,7 +64,7 @@ describe("Authentication", () => {
     await act(async () => {
       fireEvent.press(button);
     });
-    const homeScreen = await findByTestId("home_screen");
+    const homeScreen = await findByTestId(TEST_ID.HOME);
 
     expect(homeScreen).toBeTruthy();
   });
@@ -82,12 +83,12 @@ describe("Authentication", () => {
     });
 
     // logout
-    const logoutButton = await findByText("Logout");
+    const logoutButton = await findByTestId(TEST_ID.LOGOUT);
     await act(async () => {
       fireEvent.press(logoutButton);
     });
 
-    expect(await findByTestId("auth_screen")).toBeTruthy();
+    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy();
   });
 
   it("Should not login if authenticate with git returns undefined", async () => {
@@ -105,9 +106,9 @@ describe("Authentication", () => {
     const button = await findByText("Entrar com Github");
     await act(async () => {
       fireEvent.press(button);
-    });
+    })
 
-    expect(await findByTestId("auth_screen")).toBeTruthy();
+    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy()
   });
 
   it("Should not login if authenticate with git throws an error", async () => {
@@ -125,8 +126,7 @@ describe("Authentication", () => {
     const button = await findByText("Entrar com Github");
     await act(async () => {
       fireEvent.press(button);
-    });
-
-    expect(await findByTestId("auth_screen")).toBeTruthy();
+    })
+    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy()
   });
 });

@@ -1,14 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { Loading } from '../components';
 import { useAuth } from '../hooks';
-import { LoadingScreen } from '../screens';
-import { AuthNavigation } from './AuthNavigation';
-import { MainNavigation } from './MainNavigation';
+
+import { AuthNavigation } from './auth';
+import { MainNavigation } from './main';
 
 
 export function Navigation() {
   const { isAuthenticated, isAuthenticating } = useAuth()
   
-    if(isAuthenticating) return <LoadingScreen />
+    if(isAuthenticating) return <Loading />
     
     return (
       <NavigationContainer>

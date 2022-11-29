@@ -1,25 +1,56 @@
-import { getFirestore, setDoc, doc, Firestore, collection, query, getDocs  } from 'firebase/firestore';
-import { DatabaseRepository } from '../../domain/repositories';
+import { 
+    getFirestore, 
+    setDoc, 
+    doc, 
+    Firestore,  
+    getDocs, 
+    updateDoc,
+    deleteDoc, 
+    getDoc,
+} from 'firebase/firestore';
 
+import { QueryOptions, DatabaseRepository } from '../../domain/repositories';
+import { 
+    parseFirebaseSnapshot, 
+    parseCollection, 
+    getRefFromArgs 
+} from "../helpers"
 export class FirebaseDatabaseRepository implements DatabaseRepository {
     private readonly firestore: Firestore = getFirestore()
+    private readonly collections: string[]
 
-    constructor(private readonly collection: string){}
+    constructor(...collections: string[]){
+        this.collections = collections
+    }
 
-    async getAll<T>(): Promise<T[]> {
-        const docsRef = query(collection(this.firestore, this.collection));
+    get collection() {
+        return parseCollection(this.collections, this.firestore)
+    }
+
+    async getOneById<T>(id: string): Promise<T> {
+        const docRef = doc(this.collection, id);
+        const docSnap = await getDoc(docRef);
+        return docSnap.data() as T
+    }
+
+    async getAll<T>(args?: QueryOptions): Promise<T[]> {
+        const docsRef = getRefFromArgs(this.collection, args); 
         const docsSnap = await getDocs(docsRef)
-
-        const result: T[] = []
-        
-        docsSnap.forEach(snap => {
-            const data = snap.data() as T
-            result.push(data)
-        })
-        return result
+        return parseFirebaseSnapshot<T>(docsSnap)
     }
     
-    async createOrReplace(data: any, key?: string){
-        await setDoc(doc(collection(this.firestore, this.collection), key), data)
+    async createOrReplace(data: any, id?: string){
+        await setDoc(doc(this.collection, id), data)
     }
+
+    async update(data: any, id: string): Promise<void> {
+        await updateDoc(doc(this.collection, id), data)
+    }
+
+    async delete(id: string) {
+        await deleteDoc(doc(this.collection, id))
+    }  
+
+ 
 }
+

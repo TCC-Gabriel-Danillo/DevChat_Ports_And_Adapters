@@ -1,6 +1,9 @@
-
-export const PRIMARY= "#7d70ba"
-export const SECONDARY = "#dec1ff"
-export const WHITE = "#fff"
-export const DARK = "#131112"
-export const LIGHT = "#eee"
+export enum COLORS  {
+    PRIMARY= "#7d70ba",
+    SECONDARY = "#dec1ff",
+    WHITE = "#fff",
+    DARK = "#131112",
+    LIGHT = "#eee",
+    GREY = "#A9A9A9",
+    LIGHT_GREY = "#cfd4d1"
+}

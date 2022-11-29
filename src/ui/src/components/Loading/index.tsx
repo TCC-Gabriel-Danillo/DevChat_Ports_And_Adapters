@@ -1,10 +1,11 @@
 import { Image } from 'react-native'
-import { Container, Text } from "@ui/src/components"
+import { Container } from "@ui/src/components/Container"
+import { Text } from "@ui/src/components/Text"
 import loadingImg from "@ui/assets/loading.png"
 
-import { styles } from './styles'
+import styles from './styles'
 
-export function LoadingScreen(){
+export function Loading(){
     return (
         <Container style={styles.container}>
             <Image source={loadingImg} style={styles.loadingImg} />

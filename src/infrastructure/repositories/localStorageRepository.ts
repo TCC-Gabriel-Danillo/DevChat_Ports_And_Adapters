@@ -9,9 +9,9 @@ export class LocalStorage implements LocalStorageRepository {
     return dataObj
   }
   async setItem(key: string, data: any): Promise<void> {
-    if(typeof data === 'string') {
-        await AsyncStorage.setItem(key, data)
-        return
+    if (typeof data === 'string') {
+      await AsyncStorage.setItem(key, data)
+      return
     }
     const dataStr = JSON.stringify(data)
     await AsyncStorage.setItem(key, dataStr)

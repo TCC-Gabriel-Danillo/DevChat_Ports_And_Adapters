@@ -2,10 +2,9 @@ import { User } from '@domain/entities/models'
 import { createContext, useCallback, useState } from 'react'
 import { STORAGE_KEYS } from '../constants';
 import { AuthUseCase } from "@domain/entities/usecases"
-import { alert } from "@ui/src/helpers"
 import { LocalStorageRepository } from '@domain/repositories';
 import { usePersistentState } from '@ui/src/hooks/usePersistentState';
-import { AuthPromptService } from '../hooks';
+import { AuthPromptService, useAlert } from '../hooks';
 
 interface Props {
     children: JSX.Element
@@ -34,6 +33,7 @@ export function AuthContextProvider({
     const [user, setUser, isCheckingState] = usePersistentState<User>(STORAGE_KEYS.USERS, {} as User, localStorageRepository)
     const [isAuthenticating, setAuthenticating] = useState<boolean>(false)
     const { promptAuth } = authPromptService
+    const { openAlert } = useAlert()
 
     const loginWithGithub = useCallback(async () => {
         try {
@@ -45,7 +45,7 @@ export function AuthContextProvider({
 
         } catch (error) {
             console.error(error)
-            alert("Erro ao logar com o git.")
+            openAlert({ message: "Erro ao logar com o git." })
         } finally {
             setAuthenticating(false)
         }

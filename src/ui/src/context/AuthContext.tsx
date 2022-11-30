@@ -1,10 +1,6 @@
 import { User } from '@domain/entities/models'
 import { createContext, useCallback, useState } from 'react'
-import {
-    GIT_CLIENT_ID,
-    GIT_CLIENT_SECRET,
-    STORAGE_KEYS
-} from '../constants';
+import { STORAGE_KEYS } from '../constants';
 import { AuthUseCase } from "@domain/entities/usecases"
 import { alert } from "@ui/src/helpers"
 import { LocalStorageRepository } from '@domain/repositories';

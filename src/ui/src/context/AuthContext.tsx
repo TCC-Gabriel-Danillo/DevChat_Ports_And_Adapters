@@ -42,12 +42,7 @@ export function AuthContextProvider({
     const loginWithGithub = useCallback(async () => {
         try {
             setAuthenticating(true)
-            const { code } = await promptAuth();
-            const credentials = {
-                client_id: GIT_CLIENT_ID,
-                client_secret: GIT_CLIENT_SECRET,
-                code
-            }
+            const credentials = await promptAuth();
             const userResponse = await authService.authenticateGithub(credentials)
             if (!userResponse) throw new Error("Algo deu errado ao tentar logar.")
             await setUser(userResponse)

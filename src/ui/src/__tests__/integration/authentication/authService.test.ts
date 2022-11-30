@@ -1,7 +1,7 @@
 import { DatabaseRepository } from "@domain/repositories"
 import { HttpRepositoryImp } from "@infrastructure/repositories/httpRepository"
 import { AuthService } from "@domain/services"
-import * as gitMock from "../mocks/http/github"
+import * as gitMock from "../../mocks/http/github"
 import { GITHUB_URL } from "@ui/src/constants"
 
 class FirebaseDatabaseRepositoryStub implements DatabaseRepository {

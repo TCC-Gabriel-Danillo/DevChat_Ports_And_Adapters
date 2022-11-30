@@ -7,33 +7,33 @@ import { DatabaseRepository, HttpRepository } from '../repositories';
 
 export class AuthService implements AuthUseCase {
     constructor(
-        private readonly gitAuthHttp: HttpRepository, 
-        private readonly gitApiHttp: HttpRepository, 
+        private readonly gitAuthHttp: HttpRepository,
+        private readonly gitApiHttp: HttpRepository,
         private readonly userDatabaseRepository: DatabaseRepository
-    ){}
+    ) { }
 
-    async authenticateGithub (credentials: Credentials): Promise<User | undefined> {
+    async authenticateGithub(credentials: Credentials): Promise<User | undefined> {
         const tokenResponse = await this.exchangeCredentials(credentials)
-        if(!tokenResponse) return
+        if (!tokenResponse) return
 
         const { access_token } = tokenResponse
 
-        const [ gitUser, gitRepos ] = await Promise.all([
+        const [gitUser, gitRepos] = await Promise.all([
             this.getUserInfo(access_token),
             this.getUserRepos(access_token)
         ])
 
-        if(!gitUser || !gitRepos) return
+        if (!gitUser || !gitRepos) return
 
         const techs = this.getTechsInfoFromGitRepos(gitRepos)
 
         const newUser = mapGitUserToUser(gitUser, techs)
         await this.createUserIfNotExists(newUser)
-        return newUser    
-    }   
+        return newUser
+    }
 
-    async exchangeCredentials(credentials: Credentials){
-        return this.gitAuthHttp.post<GitTokenDto>('/access_token', credentials, { 
+    async exchangeCredentials(credentials: Credentials) {
+        return this.gitAuthHttp.post<GitTokenDto>('/access_token', credentials, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -43,29 +43,29 @@ export class AuthService implements AuthUseCase {
 
     async getUserInfo(token: string): Promise<GitUser | undefined> {
         return this.gitApiHttp.get<GitUser>('/user', {
-            headers: { authorization: `Bearer ${token}` } 
-        }); 
+            headers: { authorization: `Bearer ${token}` }
+        });
     }
 
-    async getUserRepos(token: string): Promise<GitRepository[] | undefined>{
+    async getUserRepos(token: string): Promise<GitRepository[] | undefined> {
         return this.gitApiHttp.get<GitRepository[]>('/user/repos', {
-            headers: { authorization: `Bearer ${token}` } 
-        }); 
+            headers: { authorization: `Bearer ${token}` }
+        });
     }
 
     getTechsInfoFromGitRepos(repos: GitRepository[]): string[] {
         const techs: Array<string> = []
         repos.forEach(repo => {
             const isNewTech = !techs.find((tech) => repo.language == tech)
-            if(isNewTech && repo.language){
+            if (isNewTech && repo.language) {
                 techs.push(repo.language)
             }
         })
         return techs
     }
 
-    async createUserIfNotExists(user: User){
-        const firebaseUser = mapUserToFirebaseUser(user); 
+    async createUserIfNotExists(user: User) {
+        const firebaseUser = mapUserToFirebaseUser(user);
         await this.userDatabaseRepository.createOrReplace(firebaseUser, firebaseUser.id)
     }
 }

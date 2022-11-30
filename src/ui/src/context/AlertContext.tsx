@@ -17,7 +17,7 @@ export interface AlertContextData {
 export const AlertContext = createContext<AlertContextData>({} as AlertContextData)
 
 export function AlertContextProvider({ children }: Props) {
-    const [isOpen, setOpen] = useState(true)
+    const [isOpen, setOpen] = useState(false)
     const [message, setMessage] = useState("")
 
     const openAlert = (options: Options) => {

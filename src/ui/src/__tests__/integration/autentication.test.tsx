@@ -4,10 +4,11 @@ import { render, fireEvent } from "@testing-library/react-native";
 import { AuthUseCase, Credentials } from '@domain/entities/usecases';
 import { User } from '@domain/entities/models';
 import { LocalStorageRepository } from '@domain/repositories';
-import { AuthContextProvider } from '@ui/src/context';
+import { AlertContextProvider, AuthContextProvider } from '@ui/src/context';
 import { AuthPromptService } from '@ui/src/hooks';
 import { act } from 'react-test-renderer';
 import { TEST_ID } from '@ui/src/constants';
+import { AuthScreen } from '@ui/src/screens';
 
 class AuthServiceStub implements AuthUseCase {
   async authenticateGithub(
@@ -27,13 +28,17 @@ class LocalStorageRepositoryStub implements LocalStorageRepository {
   async getItem<T>(key: string): Promise<T | undefined> {
     return Promise.resolve({} as T);
   }
-  async setItem(key: string, data: any): Promise<void> {}
-  async removeItem(key: string): Promise<void> {}
+  async setItem(key: string, data: any): Promise<void> { }
+  async removeItem(key: string): Promise<void> { }
 }
 
 const authPromptServiceStub: AuthPromptService = {
   promptAuth: async () => {
-    return { code: "1234" };
+    return {
+      code: "1234",
+      client_id: "client_id",
+      client_secret: "client_secret"
+    };
   },
 };
 
@@ -42,53 +47,37 @@ const renderComponent = (
   authServiceStub: AuthUseCase
 ) => {
   return (
-    <AuthContextProvider
-      authPromptService={authPromptServiceStub}
-      authService={authServiceStub}
-      localStorageRepository={localStorageStub}
-    >
-      <Navigation />
-    </AuthContextProvider>
+    <AlertContextProvider>
+      <AuthContextProvider
+        authPromptService={authPromptServiceStub}
+        authService={authServiceStub}
+        localStorageRepository={localStorageStub}
+      >
+        <AuthScreen />
+      </AuthContextProvider>
+    </AlertContextProvider>
   );
 };
 
 describe("Authentication", () => {
-  it("Should redirect after authenticate", async () => {
+  it("Should call authentication method with the right parameters", async () => {
     const localStorageStub = new LocalStorageRepositoryStub();
     const authServiceStub = new AuthServiceStub();
-    const { findByTestId, findByText } = render(
+    const { findByText } = render(
       renderComponent(localStorageStub, authServiceStub)
     );
 
     const button = await findByText("Entrar com Github");
+    const spy = jest.spyOn(authServiceStub, "authenticateGithub")
+
     await act(async () => {
       fireEvent.press(button);
     });
-    const homeScreen = await findByTestId(TEST_ID.HOME);
-
-    expect(homeScreen).toBeTruthy();
-  });
-
-  it("Should logout sucessfully", async () => {
-    const localStorageStub = new LocalStorageRepositoryStub();
-    const authServiceStub = new AuthServiceStub();
-    const { findByTestId, findByText } = render(
-      renderComponent(localStorageStub, authServiceStub)
-    );
-
-    // login
-    const loginButton = await findByText("Entrar com Github");
-    await act(async () => {
-      fireEvent.press(loginButton);
-    });
-
-    // logout
-    const logoutButton = await findByTestId(TEST_ID.LOGOUT);
-    await act(async () => {
-      fireEvent.press(logoutButton);
-    });
-
-    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy();
+    expect(spy).toBeCalledWith({
+      code: "1234",
+      client_id: "client_id",
+      client_secret: "client_secret"
+    })
   });
 
   it("Should not login if authenticate with git returns undefined", async () => {
@@ -98,7 +87,7 @@ describe("Authentication", () => {
     jest
       .spyOn(authServiceStub, "authenticateGithub")
       .mockImplementation(() => Promise.resolve(undefined));
-    const { findByTestId, findByText } = render(
+    const { findByText } = render(
       renderComponent(localStorageStub, authServiceStub)
     );
 
@@ -108,7 +97,7 @@ describe("Authentication", () => {
       fireEvent.press(button);
     })
 
-    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy()
+    expect(await findByText("Erro ao logar com o git.")).toBeTruthy()
   });
 
   it("Should not login if authenticate with git throws an error", async () => {
@@ -127,6 +116,6 @@ describe("Authentication", () => {
     await act(async () => {
       fireEvent.press(button);
     })
-    expect(await findByTestId(TEST_ID.AUTH)).toBeTruthy()
+    expect(await findByText("Erro ao logar com o git.")).toBeTruthy()
   });
 });

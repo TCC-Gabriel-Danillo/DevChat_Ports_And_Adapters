@@ -15,7 +15,7 @@ jest.mock('@ui/src/hooks/useMainNavigation', () => ({
 }));
 
 
-const mockedLoggedUser = {
+const mockedLoggedUser: User = {
     email: "any_email",
     id: "any_id",
     username: "any_username",
@@ -30,7 +30,7 @@ const mockedParticipant = {
     techs: ["tech_2", "tech_3"]
 }
 
-const mockedConversation = {
+const mockedConversation: Conversation = {
     id: "any_id",
     createdAt: new Date(),
     lastSenderId: "any_senderId",
@@ -64,7 +64,7 @@ const renderComponent = () => {
             isAuthenticating: false,
             loginWithGithub: jest.fn(),
             logout: jest.fn(),
-            user: { id: "any_id" } as User
+            user: mockedLoggedUser
         }}>
             <ConversationContextProvider conversationService={conversationServiceStub}>
                 <HomeScreen />
@@ -73,7 +73,7 @@ const renderComponent = () => {
     )
 }
 
-describe("Home", () => {
+describe("HomeScreen", () => {
     it("should redender a conversation card", async () => {
         const { findByText } = render(
             renderComponent()

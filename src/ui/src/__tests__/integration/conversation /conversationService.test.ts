@@ -105,15 +105,8 @@ describe("conversationService", () => {
         expect(spy).toHaveBeenCalledWith(mockedConversation.id)
     })
 
-    it("should call delete with the right parameters", async () => {
-        const { conversationService, conversationDatabaseRepositoryStub } = makeSut()
-        const spy = jest.spyOn(conversationDatabaseRepositoryStub, "delete")
-        await conversationService.deleteConversation(mockedConversation)
-        expect(spy).toHaveBeenCalledWith(mockedConversation.id)
-    })
-
     it("should trigger for callback when listening for conversations", async () => {
-        const { conversationService, conversationRealtimeDatabaseRepositorySub } = makeSut()
+        const { conversationService } = makeSut()
         const mockedCallback = jest.fn()
         await conversationService.listenConversationsByUserId("any_id", mockedCallback);
         expect(mockedCallback).toHaveBeenCalled()

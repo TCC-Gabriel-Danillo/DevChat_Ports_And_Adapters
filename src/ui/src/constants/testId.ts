@@ -4,5 +4,6 @@ export enum TEST_ID {
     HOME = "home",
     USER_CARD = "user_card",
     ADD_BUTTON = "add_button",
-    TECH_CARD = "tech_card"
+    TECH_CARD = "tech_card",
+    EMPTY_MESSAGE = "empty_message"
 }

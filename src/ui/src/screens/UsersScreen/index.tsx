@@ -1,7 +1,7 @@
 import { Container } from "@ui/src/components";
 import { Text, Loading } from "@ui/src/components"
 import { useUsers } from "@ui/src/hooks/useUsers";
-import { MAIN_SCREENS } from "@ui/src/constants";
+import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { useEffect } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { Empty, UserCard } from "@ui/src/components";
@@ -20,7 +20,6 @@ export function UsersScreen() {
     useEffect(() => {
         getUsersByTech(params.tech)
     }, [])
-
     const renderUserList = () => {
         return (
             <FlatList
@@ -29,6 +28,7 @@ export function UsersScreen() {
                     return (
                         <TouchableOpacity
                             onPress={() => onUserPressed(user)}
+                            testID={TEST_ID.USER_CARD}
                         >
                             <UserCard
                                 style={styles.userCard}

@@ -1,12 +1,12 @@
-import { ConversationUseCase } from "../../domain/entities/usecases"
-import { Conversation, User } from "../entities/models";
+import { ConversationUseCase } from "@domain/entities/usecases"
+import { Conversation, User } from "@domain/entities/models";
 import {
     DatabaseRepository,
     OP,
     ORDER,
     RealtimeDatabaseRepository,
     VoidCallback
-} from "../../domain/repositories"
+} from "@domain/repositories"
 
 import {
     FirebaseConversationDTO,
@@ -14,7 +14,7 @@ import {
     mapFirebaseToUser,
     mapFirebaseConversationToConversation,
     mapConversationToFirebaseConversation
-} from "../../infrastructure/dto/firebase";
+} from "@infrastructure/dto/firebase";
 
 export class ConversationService implements ConversationUseCase {
     constructor(

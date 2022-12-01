@@ -1,6 +1,6 @@
 import { View } from "react-native"
 import { Text } from "@ui/src/components/Text"
-import { COLORS, ICONS } from "@ui/src/constants"
+import { ICONS, TEST_ID } from "@ui/src/constants"
 import styles from "./styles"
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 export function MessageBallon({ isRead, isSender, message, formatedDate }: Props) {
     return (
         <View
+            testID={TEST_ID.MESSAGE_BALLON}
             style={[
                 styles.container,
                 !isSender &&

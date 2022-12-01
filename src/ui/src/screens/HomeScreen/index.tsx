@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from "react-native"
+import { FlatList, TouchableOpacity } from "react-native"
 import { Container, Text, Loading, AddButton, UserCard, Badge } from '@ui/src/components'
 import { COLORS, ICONS, MAIN_SCREENS, TEST_ID } from '@ui/src/constants'
 import { useAuth, useConversation, useMainNavigation } from '@ui/src/hooks'
@@ -37,6 +37,7 @@ export function HomeScreen() {
                         <TouchableOpacity
                             onPress={() => goToMessageScreen(conversation, participant)}
                             style={styles.userCard}
+                            testID={TEST_ID.USER_CARD}
                         >
                             <UserCard
                                 photoUrl={participant.photoUrl}
@@ -53,7 +54,7 @@ export function HomeScreen() {
                     )
                 }}
             />
-            <AddButton style={styles.addButton} onPress={goToTechScreen} />
+            <AddButton testID={TEST_ID.ADD_BUTTON} style={styles.addButton} onPress={goToTechScreen} />
         </Container>
     )
 }

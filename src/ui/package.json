@@ -8,6 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "postinstall": "node ./postinstall.js",
+    "test:silent": "jest  --coverage --silent",
     "test": "jest  --coverage"
   },
   "dependencies": {

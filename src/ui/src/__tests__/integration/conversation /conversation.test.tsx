@@ -15,8 +15,6 @@ jest.mock('@ui/src/hooks/useMainNavigation', () => ({
 }));
 
 
-
-
 const mockedLoggedUser = {
     email: "any_email",
     id: "any_id",

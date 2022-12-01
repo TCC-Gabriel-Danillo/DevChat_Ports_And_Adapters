@@ -1,5 +1,7 @@
 export enum TEST_ID {
-    LOGOUT = "logout", 
+    LOGOUT = "logout",
     AUTH = "auth",
-    HOME = "home"
+    HOME = "home",
+    USER_CARD = "user_card",
+    ADD_BUTTON = "add_button"
 }

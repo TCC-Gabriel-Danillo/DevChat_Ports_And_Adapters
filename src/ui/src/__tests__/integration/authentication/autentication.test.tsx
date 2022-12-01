@@ -7,7 +7,6 @@ import { LocalStorageRepository } from '@domain/repositories';
 import { AlertContextProvider, AuthContextProvider } from '@ui/src/context';
 import { AuthPromptService } from '@ui/src/hooks';
 import { act } from 'react-test-renderer';
-import { TEST_ID } from '@ui/src/constants';
 import { AuthScreen } from '@ui/src/screens';
 
 class AuthServiceStub implements AuthUseCase {

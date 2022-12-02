@@ -54,6 +54,7 @@ export function MessageContextProvider({ children, messageService, conversation 
 
     const updateConversation = async (newMessages: Message[]) => {
         const lastMessage = newMessages[newMessages.length - 1]
+        if (!lastMessage) return
 
         const newConversation: Conversation = {
             ...currentConversation,

@@ -11,6 +11,11 @@ import {
 
 WebBrowser.maybeCompleteAuthSession();
 
+const discovery = {
+    authorizationEndpoint: GIT_AUTHORIZATION_ENDPOINT,
+    tokenEndpoint: GIT_TOKEN_ENDPOINT,
+    revocationEndpoint: GIT_REVOCATION_ENDPOINT,
+};
 
 export interface AuthResponse {
     code: string

@@ -29,6 +29,5 @@ jobs:
         run: yarn test
 
       - name: Upload coverage to Codecov
+        working-directory: src/ui
         uses: codecov/codecov-action@v3
-        with:
-          gcov: true

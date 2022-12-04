@@ -59,6 +59,11 @@ const renderComponent = (
 };
 
 describe("Authentication", () => {
+
+  beforeAll(() => {
+    jest.setTimeout(70000)
+  })
+
   it("Should call authentication method with the right parameters", async () => {
     const localStorageStub = new LocalStorageRepositoryStub();
     const authServiceStub = new AuthServiceStub();

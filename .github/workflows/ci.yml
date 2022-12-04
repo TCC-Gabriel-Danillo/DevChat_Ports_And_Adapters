@@ -21,11 +21,11 @@ jobs:
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
       - name: Install deps
-        working-directory: ../../src/ui
+        working-directory: src/ui
         run: yarn install
 
       - name: run tests
-        working-directory: ../../src/ui
+        working-directory: src/ui
         run: yarn test
 
       - name: Upload coverage to Codecov

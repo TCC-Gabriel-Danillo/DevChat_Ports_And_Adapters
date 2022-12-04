@@ -20,6 +20,8 @@ export function UsersScreen() {
     useEffect(() => {
         getUsersByTech(params.tech)
     }, [])
+
+
     const renderUserList = () => {
         return (
             <FlatList

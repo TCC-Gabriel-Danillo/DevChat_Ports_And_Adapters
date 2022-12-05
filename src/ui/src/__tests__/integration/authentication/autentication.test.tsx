@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation } from '@ui/src/navigation';
 import { render, fireEvent } from "@testing-library/react-native";
 import { AuthUseCase, Credentials } from '@domain/entities/usecases';
 import { User } from '@domain/entities/models';
@@ -27,8 +26,12 @@ class LocalStorageRepositoryStub implements LocalStorageRepository {
   async getItem<T>(key: string): Promise<T | undefined> {
     return Promise.resolve({} as T);
   }
-  async setItem(key: string, data: any): Promise<void> { }
-  async removeItem(key: string): Promise<void> { }
+  async setItem(key: string, data: any): Promise<void> {
+    return Promise.resolve()
+  }
+  async removeItem(key: string): Promise<void> {
+    return Promise.resolve()
+  }
 }
 
 const authPromptServiceStub: AuthPromptService = {
@@ -108,7 +111,7 @@ describe("Authentication", () => {
     jest
       .spyOn(authServiceStub, "authenticateGithub")
       .mockImplementation(() => Promise.reject(new Error("some error")));
-    const { findByTestId, findByText } = render(
+    const { findByText } = render(
       renderComponent(localStorageStub, authServiceStub)
     );
 

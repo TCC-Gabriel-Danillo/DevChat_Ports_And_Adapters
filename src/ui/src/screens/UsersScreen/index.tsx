@@ -1,10 +1,8 @@
-import { Container } from "@ui/src/components";
-import { Text, Loading } from "@ui/src/components"
+import { Text, Loading, Empty, UserCard, Container } from "@ui/src/components"
 import { useUsers } from "@ui/src/hooks/useUsers";
 import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { useEffect } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
-import { Empty, UserCard } from "@ui/src/components";
 import { parseArrayToString } from "@ui/src/utils";
 import styles from "./styles"
 import { useAuth, useConversation, useMainNavigation, useMainRoute } from "@ui/src/hooks";

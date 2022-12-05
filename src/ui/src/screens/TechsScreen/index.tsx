@@ -1,7 +1,6 @@
 import { Card, Container, Text } from "@ui/src/components";
-import { COLORS, MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
+import { COLORS, MAIN_SCREENS, TEST_ID, ICONS } from "@ui/src/constants";
 import { useAuth, useMainNavigation } from "@ui/src/hooks";
-import { ICONS } from "@ui/src/constants"
 import styles from "./styles"
 import { FlatList } from "react-native";
 

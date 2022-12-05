@@ -1,5 +1,5 @@
 export interface BaseComponent {
-    testID?: string | undefined;
+    testID?: string;
 }
 
 export type UiType = "primary" | "secondary"

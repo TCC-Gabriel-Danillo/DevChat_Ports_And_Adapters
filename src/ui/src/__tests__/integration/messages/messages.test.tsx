@@ -55,7 +55,9 @@ class MessageServiceStub implements MessageUseCase {
     listenMessages(cb: VoidCallback<Message>): void {
         cb(mockedMessages)
     }
-    unlistenMessages(): void { }
+    unlistenMessages(): void {
+        return
+    }
 }
 
 const messageServiceStub = new MessageServiceStub()

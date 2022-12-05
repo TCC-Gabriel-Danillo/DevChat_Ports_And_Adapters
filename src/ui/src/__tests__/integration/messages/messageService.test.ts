@@ -99,7 +99,7 @@ describe("messageService", () => {
     it("should trigger for callback when listening for messages", async () => {
         const { messageService } = makeSut()
         const mockedCallback = jest.fn()
-        await messageService.listenMessages(mockedCallback);
+        messageService.listenMessages(mockedCallback);
         expect(mockedCallback).toHaveBeenCalled()
     })
 })

@@ -108,7 +108,7 @@ describe("conversationService", () => {
     it("should trigger for callback when listening for conversations", async () => {
         const { conversationService } = makeSut()
         const mockedCallback = jest.fn()
-        await conversationService.listenConversationsByUserId("any_id", mockedCallback);
+        conversationService.listenConversationsByUserId("any_id", mockedCallback);
         expect(mockedCallback).toHaveBeenCalled()
     })
 })

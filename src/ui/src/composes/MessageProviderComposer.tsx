@@ -1,5 +1,5 @@
 import { FirebaseDatabaseRepository, FirebaseRealtimeDatabaseRepository } from "@infrastructure/repositories"
-import { ConversationService, MessageService } from "@domain/services"
+import { MessageService } from "@domain/services"
 import { FIREBASE_COLLECTION } from "../constants"
 import { MessageContextProvider } from "../context"
 import { Conversation } from "@domain/entities/models"

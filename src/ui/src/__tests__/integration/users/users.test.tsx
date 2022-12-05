@@ -76,7 +76,9 @@ class ConversationServiceStub implements ConversationUseCase {
     listenConversationsByUserId(userId: string, cb: VoidCallback<Conversation>): void {
         cb([mockedConversation])
     }
-    unlistenConversationsByUserId(): void { }
+    unlistenConversationsByUserId(): void {
+        return
+    }
 }
 
 

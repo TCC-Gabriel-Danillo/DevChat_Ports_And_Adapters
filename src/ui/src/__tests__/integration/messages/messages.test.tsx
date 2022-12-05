@@ -1,4 +1,4 @@
-import { Conversation, Message } from "@domain/entities/models";
+import { Message } from "@domain/entities/models";
 import { MessageUseCase } from "@domain/entities/usecases";
 import { VoidCallback } from "@domain/repositories";
 import { fireEvent, render } from "@testing-library/react-native";
@@ -6,42 +6,13 @@ import { TEST_ID } from "@ui/src/constants";
 import { AuthContext, ConversationContext, MessageContextProvider } from "@ui/src/context";
 import { MessageScreen } from "@ui/src/screens";
 import { act } from "react-test-renderer";
+import { mockedLoggedUser, mockedParticipant, mockedConversation } from "../../mocks/models";
 
 
-const mockedAuthUser = {
-    email: "authed_email",
-    id: "auhted_id",
-    username: "auhted_username",
-    photoUrl: "auhted_url",
-    techs: ["any_tech1", "any_tech2"]
-}
-
-const mockedParticipant = {
-    email: "any_email",
-    id: "any_id",
-    username: "any_username",
-    photoUrl: "any_url",
-    techs: ["any_tech1", "any_tech2"]
-}
-
-const mockedUsers = [
-    mockedAuthUser,
-    mockedParticipant
-]
-
-const mockedConversation: Conversation = {
-    id: "any_id",
-    createdAt: new Date(),
-    lastSenderId: "any_senderId",
-    tech: "any_tech",
-    unreadNumber: 0,
-    updatedAt: new Date(),
-    users: mockedUsers
-}
 
 const mockedMessages: Message[] = [
-    { createdAt: new Date(), id: "any_id", message: "any_message", read: false, sender: mockedAuthUser },
-    { createdAt: new Date(), id: "any_id2", message: "any_message2", read: false, sender: mockedAuthUser },
+    { createdAt: new Date(), id: "any_id", message: "any_message", read: false, sender: mockedLoggedUser },
+    { createdAt: new Date(), id: "any_id2", message: "any_message2", read: false, sender: mockedLoggedUser },
     { createdAt: new Date(), id: "any_id3", message: "any_message3", read: false, sender: mockedParticipant }
 ]
 
@@ -72,7 +43,7 @@ const renderComponent = () => {
                 isAuthenticating: false,
                 loginWithGithub: jest.fn(),
                 logout: jest.fn(),
-                user: mockedAuthUser
+                user: mockedLoggedUser
             }}
         >
             <ConversationContext.Provider

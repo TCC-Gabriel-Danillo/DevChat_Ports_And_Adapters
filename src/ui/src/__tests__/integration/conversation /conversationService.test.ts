@@ -3,6 +3,7 @@ import { ConversationUseCase } from "@domain/entities/usecases";
 import { DatabaseRepository, QueryOptions, RealtimeDatabaseRepository, VoidCallback } from "@domain/repositories"
 import { ConversationService } from "@domain/services";
 import { mapConversationToFirebaseConversation } from "@infrastructure/dto/firebase";
+import { sleep } from "@ui/src/utils";
 
 class ConversationDatabaseRepositoryStub implements DatabaseRepository {
     getOneById<T>(id: string): Promise<T> {
@@ -109,6 +110,7 @@ describe("conversationService", () => {
         const { conversationService } = makeSut()
         const mockedCallback = jest.fn()
         conversationService.listenConversationsByUserId("any_id", mockedCallback);
+        await sleep(100)
         expect(mockedCallback).toHaveBeenCalled()
     })
 })

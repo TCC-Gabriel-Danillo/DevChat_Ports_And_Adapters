@@ -3,6 +3,7 @@ import { MessageUseCase } from "@domain/entities/usecases";
 import { DatabaseRepository, QueryOptions, RealtimeDatabaseRepository, VoidCallback } from "@domain/repositories"
 import { MessageService } from "@domain/services";
 import { mapMessageToFirebaseMessage } from "@infrastructure/dto/firebase";
+import { sleep } from "@ui/src/utils";
 
 class MessageDatabaseRepositoryStub implements DatabaseRepository {
     getOneById<T>(id: string): Promise<T> {
@@ -100,6 +101,7 @@ describe("messageService", () => {
         const { messageService } = makeSut()
         const mockedCallback = jest.fn()
         messageService.listenMessages(mockedCallback);
+        await sleep(100)
         expect(mockedCallback).toHaveBeenCalled()
     })
 })

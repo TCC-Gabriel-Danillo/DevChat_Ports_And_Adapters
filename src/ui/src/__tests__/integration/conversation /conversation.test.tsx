@@ -1,11 +1,10 @@
-import { Conversation, User } from "@domain/entities/models";
-import { ConversationUseCase } from "@domain/entities/usecases";
-import { VoidCallback } from "@domain/repositories";
 import { HomeScreen } from "@ui/src/screens/HomeScreen"
 import { render, fireEvent } from "@testing-library/react-native";
 import { AuthContext, ConversationContextProvider } from "@ui/src/context";
 import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { act } from "react-test-renderer";
+import { ConversationServiceStub } from "../../mocks/stubs";
+import { mockedConversation, mockedLoggedUser, mockedParticipant } from "../../mocks/models";
 
 const mockedNavigate = jest.fn()
 jest.mock('@ui/src/hooks/useMainNavigation', () => ({
@@ -13,50 +12,6 @@ jest.mock('@ui/src/hooks/useMainNavigation', () => ({
         navigate: mockedNavigate
     })
 }));
-
-
-const mockedLoggedUser: User = {
-    email: "any_email",
-    id: "any_id",
-    username: "any_username",
-    photoUrl: "any_url",
-    techs: ["tech_1", "tech_2"]
-}
-const mockedParticipant = {
-    email: "any_email2",
-    id: "any_id2",
-    username: "any_username2",
-    photoUrl: "any_url2",
-    techs: ["tech_2", "tech_3"]
-}
-
-const mockedConversation: Conversation = {
-    id: "any_id",
-    createdAt: new Date(),
-    lastSenderId: "any_senderId",
-    tech: "any_tech",
-    unreadNumber: 0,
-    updatedAt: new Date(),
-    users: [mockedLoggedUser, mockedParticipant]
-}
-
-class ConversationServiceStub implements ConversationUseCase {
-    updateConversationById(conversation: Conversation): Promise<void> {
-        return Promise.resolve()
-    }
-    createConversation(conversation: Conversation): Promise<void> {
-        return Promise.resolve()
-    }
-    deleteConversation(conversation: Conversation): Promise<void> {
-        return Promise.resolve()
-    }
-    listenConversationsByUserId(userId: string, cb: VoidCallback<Conversation>): void {
-        cb([mockedConversation])
-    }
-    unlistenConversationsByUserId(): void {
-        return
-    }
-}
 
 const conversationServiceStub = new ConversationServiceStub()
 const renderComponent = () => {

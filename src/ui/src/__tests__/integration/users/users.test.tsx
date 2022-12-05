@@ -21,6 +21,7 @@ jest.mock('@ui/src/hooks/useMainRoute', () => ({
     })
 }));
 
+jest.setTimeout(70000)
 
 const conversationServiceStub = new ConversationServiceStub()
 const userServiceStub = new UserServiceStub()

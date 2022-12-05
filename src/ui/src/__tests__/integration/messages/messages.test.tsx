@@ -6,15 +6,9 @@ import { TEST_ID } from "@ui/src/constants";
 import { AuthContext, ConversationContext, MessageContextProvider } from "@ui/src/context";
 import { MessageScreen } from "@ui/src/screens";
 import { act } from "react-test-renderer";
-import { mockedLoggedUser, mockedParticipant, mockedConversation } from "../../mocks/models";
+import { mockedLoggedUser, mockedConversation } from "../../mocks/models";
+import { mockedMessages } from "../../mocks/models/messages";
 
-
-
-const mockedMessages: Message[] = [
-    { createdAt: new Date(), id: "any_id", message: "any_message", read: false, sender: mockedLoggedUser },
-    { createdAt: new Date(), id: "any_id2", message: "any_message2", read: false, sender: mockedLoggedUser },
-    { createdAt: new Date(), id: "any_id3", message: "any_message3", read: false, sender: mockedParticipant }
-]
 
 class MessageServiceStub implements MessageUseCase {
     sendMessage(message: Message): Promise<void> {

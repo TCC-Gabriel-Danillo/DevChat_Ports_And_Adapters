@@ -1,4 +1,3 @@
-import { User } from "@domain/entities/models"
 import { fireEvent, render } from "@testing-library/react-native";
 import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { AuthContext } from "@ui/src/context"

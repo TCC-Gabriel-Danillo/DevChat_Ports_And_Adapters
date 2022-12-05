@@ -1,5 +1,3 @@
-import { Conversation, User } from "@domain/entities/models";
-import { UsersUseCase } from "@domain/entities/usecases";
 import { fireEvent, render } from "@testing-library/react-native";
 import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { AuthContext, ConversationContextProvider, UsersContextProvider } from "@ui/src/context";

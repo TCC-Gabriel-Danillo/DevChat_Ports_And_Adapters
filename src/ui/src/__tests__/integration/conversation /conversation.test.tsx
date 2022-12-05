@@ -4,7 +4,11 @@ import { AuthContext, ConversationContextProvider } from "@ui/src/context";
 import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { act } from "react-test-renderer";
 import { ConversationServiceStub } from "../../mocks/stubs";
-import { mockedConversation, mockedLoggedUser, mockedParticipant } from "../../mocks/models";
+import {
+    mockedConversation,
+    mockedLoggedUser,
+    mockedParticipant
+} from "../../mocks/models";
 
 const mockedNavigate = jest.fn()
 jest.mock('@ui/src/hooks/useMainNavigation', () => ({

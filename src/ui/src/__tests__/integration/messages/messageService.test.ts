@@ -4,7 +4,7 @@ import { DatabaseRepository, RealtimeDatabaseRepository } from "@domain/reposito
 import { MessageService } from "@domain/services";
 import { mapMessageToFirebaseMessage } from "@infrastructure/dto/firebase";
 import { sleep } from "@ui/src/utils";
-import { MessageDatabaseRepositoryStub, MessageRealtimeDatabaseRepository, UserDatabaseRepositoryStub } from "../../mocks/stubs";
+import { DatabaseRepositoryStub, RealtimeDatabaseRepositoryStub } from "../../mocks/stubs";
 
 
 type SutTypes = {
@@ -14,9 +14,9 @@ type SutTypes = {
     messageService: MessageUseCase
 }
 const makeSut = (): SutTypes => {
-    const messageDatabaseRepositoryStub = new MessageDatabaseRepositoryStub()
-    const messageRealtimeDatabaseRepositorySub = new MessageRealtimeDatabaseRepository()
-    const userDatabaseRepositoryStub = new UserDatabaseRepositoryStub()
+    const messageDatabaseRepositoryStub = new DatabaseRepositoryStub()
+    const messageRealtimeDatabaseRepositorySub = new RealtimeDatabaseRepositoryStub()
+    const userDatabaseRepositoryStub = new DatabaseRepositoryStub()
 
     const messageService = new MessageService(
         messageDatabaseRepositoryStub,

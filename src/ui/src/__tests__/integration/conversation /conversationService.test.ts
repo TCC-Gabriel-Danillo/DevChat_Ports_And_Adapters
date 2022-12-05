@@ -4,8 +4,7 @@ import { DatabaseRepository, RealtimeDatabaseRepository } from "@domain/reposito
 import { ConversationService } from "@domain/services";
 import { mapConversationToFirebaseConversation } from "@infrastructure/dto/firebase";
 import { sleep } from "@ui/src/utils";
-import { ConversationDatabaseRepositoryStub, UserDatabaseRepositoryStub } from "../../mocks/stubs";
-import { ConversationRealtimeDatabaseRepository } from "../../mocks/stubs/conversationRealtimeDatabaseRepositorySub";
+import { DatabaseRepositoryStub, RealtimeDatabaseRepositoryStub } from "../../mocks/stubs";
 
 type SutTypes = {
     conversationDatabaseRepositoryStub: DatabaseRepository
@@ -14,9 +13,9 @@ type SutTypes = {
     conversationService: ConversationUseCase
 }
 const makeSut = (): SutTypes => {
-    const conversationDatabaseRepositoryStub = new ConversationDatabaseRepositoryStub()
-    const conversationRealtimeDatabaseRepositorySub = new ConversationRealtimeDatabaseRepository()
-    const userDatabaseRepositoryStub = new UserDatabaseRepositoryStub()
+    const conversationDatabaseRepositoryStub = new DatabaseRepositoryStub()
+    const conversationRealtimeDatabaseRepositorySub = new RealtimeDatabaseRepositoryStub()
+    const userDatabaseRepositoryStub = new DatabaseRepositoryStub()
 
     const conversationService = new ConversationService(
         conversationDatabaseRepositoryStub,

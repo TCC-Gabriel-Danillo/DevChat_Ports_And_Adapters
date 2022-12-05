@@ -1,9 +1,8 @@
-import { DatabaseRepository } from "@domain/repositories"
 import { HttpRepositoryImp } from "@infrastructure/repositories/httpRepository"
 import { AuthService } from "@domain/services"
 import * as gitMock from "../../mocks/http/github"
 import { GITHUB_URL } from "@ui/src/constants"
-import { UserDatabaseRepositoryStub } from "../../mocks/stubs"
+import { DatabaseRepositoryStub } from "../../mocks/stubs"
 
 describe('authService', () => {
 
@@ -16,7 +15,7 @@ describe('authService', () => {
     it("should return a user", async () => {
         const gitApiHttp = new HttpRepositoryImp(GITHUB_URL.API_BASE_URL)
         const gitAuthHttp = new HttpRepositoryImp(GITHUB_URL.AUTH_BASE_URL)
-        const userDbRepository = new UserDatabaseRepositoryStub()
+        const userDbRepository = new DatabaseRepositoryStub()
         const authService = new AuthService(gitAuthHttp, gitApiHttp, userDbRepository)
 
         const credentials = {

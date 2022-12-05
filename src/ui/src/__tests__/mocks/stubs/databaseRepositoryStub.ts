@@ -1,6 +1,6 @@
 import { DatabaseRepository, QueryOptions } from "@domain/repositories"
 
-export class UserDatabaseRepositoryStub implements DatabaseRepository {
+export class DatabaseRepositoryStub implements DatabaseRepository {
     getOneById<T>(id: string): Promise<T> {
         return Promise.resolve({} as T)
     }

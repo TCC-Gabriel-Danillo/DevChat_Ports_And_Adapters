@@ -4,6 +4,7 @@ import { MAIN_SCREENS, TEST_ID } from "@ui/src/constants";
 import { AuthContext } from "@ui/src/context"
 import { TechScreen } from "@ui/src/screens"
 import { act } from "react-test-renderer";
+import { mockedLoggedUser } from "../../mocks/models";
 
 const mockedNavigate = jest.fn()
 jest.mock('@ui/src/hooks/useMainNavigation', () => ({
@@ -12,14 +13,6 @@ jest.mock('@ui/src/hooks/useMainNavigation', () => ({
     })
 }));
 
-
-const mockedLoggedUser: User = {
-    email: "any_email",
-    id: "any_id",
-    username: "any_username",
-    photoUrl: "any_url",
-    techs: ["tech_1", "tech_2"]
-}
 
 const renderComponent = () => {
     return (
